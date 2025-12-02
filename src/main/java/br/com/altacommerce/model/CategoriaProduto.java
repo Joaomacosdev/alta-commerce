@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "marca_produto")
-public class MarcaProduto {
+@Table(name = "categoria_produto")
+public class CategoriaProduto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,10 +14,10 @@ public class MarcaProduto {
     @Column(name = "nome_desc", nullable = false)
     private String nomeDesc;
 
-    public MarcaProduto() {
+    public CategoriaProduto() {
     }
 
-    public MarcaProduto(Long id, String nomeDesc) {
+    public CategoriaProduto(Long id, String nomeDesc) {
         this.id = id;
         this.nomeDesc = nomeDesc;
     }
@@ -26,7 +26,7 @@ public class MarcaProduto {
         return id;
     }
 
-    public MarcaProduto setId(Long id) {
+    public CategoriaProduto setId(Long id) {
         this.id = id;
         return this;
     }
@@ -35,7 +35,7 @@ public class MarcaProduto {
         return nomeDesc;
     }
 
-    public MarcaProduto setNomeDesc(String nomeDesc) {
+    public CategoriaProduto setNomeDesc(String nomeDesc) {
         this.nomeDesc = nomeDesc;
         return this;
     }
@@ -44,7 +44,7 @@ public class MarcaProduto {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        MarcaProduto that = (MarcaProduto) object;
+        CategoriaProduto that = (CategoriaProduto) object;
         return Objects.equals(getId(), that.getId());
     }
 

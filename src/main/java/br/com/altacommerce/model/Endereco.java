@@ -1,0 +1,138 @@
+package br.com.altacommerce.model;
+
+import jakarta.persistence.*;
+
+import java.util.Objects;
+
+@Entity
+@Table(name = "endereco")
+public class Endereco {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String ruaLogradouro;
+    private String cep;
+    private String numero;
+    private String complemento;
+    private String bairro;
+    private String uf;
+    private String cidade;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "pessoa_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_endereco_pessoa")
+    )
+    private Pessoa pessoa;
+
+    public Endereco() {
+    }
+
+    public Endereco(Long id, String ruaLogradouro, String cep, String numero, String complemento, String bairro, String uf, String cidade, Pessoa pessoa) {
+        this.id = id;
+        this.ruaLogradouro = ruaLogradouro;
+        this.cep = cep;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.uf = uf;
+        this.cidade = cidade;
+        this.pessoa = pessoa;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Endereco setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getRuaLogradouro() {
+        return ruaLogradouro;
+    }
+
+    public Endereco setRuaLogradouro(String ruaLogradouro) {
+        this.ruaLogradouro = ruaLogradouro;
+        return this;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public Endereco setCep(String cep) {
+        this.cep = cep;
+        return this;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public Endereco setNumero(String numero) {
+        this.numero = numero;
+        return this;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public Endereco setComplemento(String complemento) {
+        this.complemento = complemento;
+        return this;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public Endereco setBairro(String bairro) {
+        this.bairro = bairro;
+        return this;
+    }
+
+    public String getUf() {
+        return uf;
+    }
+
+    public Endereco setUf(String uf) {
+        this.uf = uf;
+        return this;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public Endereco setCidade(String cidade) {
+        this.cidade = cidade;
+        return this;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public Endereco setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Endereco endereco = (Endereco) object;
+        return Objects.equals(getId(), endereco.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
+}
