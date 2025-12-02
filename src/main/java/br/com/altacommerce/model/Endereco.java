@@ -1,5 +1,6 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.model.enums.TipoEndereco;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -23,14 +24,17 @@ public class Endereco {
     @JoinColumn(
             name = "pessoa_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_endereco_pessoa")
+            foreignKey = @ForeignKey(name = "pessoa_fk")
     )
     private Pessoa pessoa;
+
+    @Enumerated(EnumType.STRING)
+    private TipoEndereco tipoEndereco;
 
     public Endereco() {
     }
 
-    public Endereco(Long id, String ruaLogradouro, String cep, String numero, String complemento, String bairro, String uf, String cidade, Pessoa pessoa) {
+    public Endereco(Long id, String ruaLogradouro, String cep, String numero, String complemento, String bairro, String uf, String cidade, Pessoa pessoa, TipoEndereco tipoEndereco) {
         this.id = id;
         this.ruaLogradouro = ruaLogradouro;
         this.cep = cep;
@@ -40,6 +44,7 @@ public class Endereco {
         this.uf = uf;
         this.cidade = cidade;
         this.pessoa = pessoa;
+        this.tipoEndereco = tipoEndereco;
     }
 
     public Long getId() {
@@ -120,6 +125,15 @@ public class Endereco {
 
     public Endereco setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+        return this;
+    }
+
+    public TipoEndereco getTipoEndereco() {
+        return tipoEndereco;
+    }
+
+    public Endereco setTipoEndereco(TipoEndereco tipoEndereco) {
+        this.tipoEndereco = tipoEndereco;
         return this;
     }
 
