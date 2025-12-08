@@ -11,9 +11,9 @@ public class ImagemProduto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(columnDefinition = "TEXT", length = 2000)
+    @Column(columnDefinition = "TEXT", nullable = false,length = 2000)
     private String imagemOriginal;
-    @Column(columnDefinition = "TEXT", length = 2000)
+    @Column(columnDefinition = "TEXT", nullable = false,length = 2000)
     private String imagemMiniatura;
 
     @ManyToOne

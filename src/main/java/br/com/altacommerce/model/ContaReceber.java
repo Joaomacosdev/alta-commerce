@@ -14,9 +14,12 @@ public class ContaReceber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String descricao;
+    @Column(nullable = false)
     private Date dtVencimento;
     private Date dtPagamento;
+    @Column(nullable = false)
     private BigDecimal valorTotal;
     private BigDecimal valorDesconto;
     @ManyToOne
@@ -27,7 +30,7 @@ public class ContaReceber {
     )
     private Pessoa pessoa;
 
-
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusContaReceber status;
 

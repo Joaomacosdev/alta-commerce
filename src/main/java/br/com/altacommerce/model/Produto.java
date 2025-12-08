@@ -1,7 +1,6 @@
 package br.com.altacommerce.model;
 
 import jakarta.persistence.*;
-import org.hibernate.sql.ast.tree.expression.JsonTableColumnDefinition;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -14,26 +13,35 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String tipoUnidade;
+    @Column(nullable = false)
     private String nome;
-    @Column(columnDefinition = "TEXT", length = 2000)
+    @Column(columnDefinition = "TEXT", nullable = false,length = 2000)
     private String descricao;
+    @Column(nullable = false)
     private Double peso;
+    @Column(nullable = false)
     private Double largura;
+    @Column(nullable = false)
     private Double altura;
+    @Column(nullable = false)
     private Double profundidade;
+    @Column(nullable = false)
     private BigDecimal valorVenda;
-    private Integer qtdEstoque;
+    @Column(nullable = false)
+    private Integer qtdEstoque = 0;
+    private Integer qtdAlertaEstoque = 0;
+
     private String linkyoutube;
-    private Boolean alertaQtdEstoque;
+    private Boolean alertaQtdEstoque = false;
     private Integer qtdClique;
     private Boolean ativo = true;
 
     public Produto() {
     }
 
-    public Produto(Long id, String tipoUnidade, String nome, String descricao, Double peso, Double largura, Double altura, Double profundidade, BigDecimal valorVenda, Integer qtdEstoque, String linkyoutube, Boolean alertaQtdEstoque, Integer qtdClique) {
-        this.id = id;
+    public Produto(String tipoUnidade, String nome, String descricao, Double peso, Double largura, Double altura, Double profundidade, BigDecimal valorVenda, Integer qtdEstoque, Integer qtdAlertaEstoque, String linkyoutube, Boolean alertaQtdEstoque, Integer qtdClique, Boolean ativo) {
         this.tipoUnidade = tipoUnidade;
         this.nome = nome;
         this.descricao = descricao;
@@ -43,9 +51,11 @@ public class Produto {
         this.profundidade = profundidade;
         this.valorVenda = valorVenda;
         this.qtdEstoque = qtdEstoque;
+        this.qtdAlertaEstoque = qtdAlertaEstoque;
         this.linkyoutube = linkyoutube;
         this.alertaQtdEstoque = alertaQtdEstoque;
         this.qtdClique = qtdClique;
+        this.ativo = ativo;
     }
 
     public Long getId() {
@@ -153,6 +163,15 @@ public class Produto {
 
     public Produto setAlertaQtdEstoque(Boolean alertaQtdEstoque) {
         this.alertaQtdEstoque = alertaQtdEstoque;
+        return this;
+    }
+
+    public Integer getQtdAlertaEstoque() {
+        return qtdAlertaEstoque;
+    }
+
+    public Produto setQtdAlertaEstoque(Integer qtdAlertaEstoque) {
+        this.qtdAlertaEstoque = qtdAlertaEstoque;
         return this;
     }
 

@@ -15,9 +15,12 @@ public class ContaPagar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String descricao;
+    @Column(nullable = false)
     private Date dtVencimento;
     private Date dtPagamento;
+    @Column(nullable = false)
     private BigDecimal valorTotal;
     private BigDecimal valorDesconto;
 
@@ -38,6 +41,7 @@ public class ContaPagar {
     )
     private Pessoa pessoaFornecedor;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusContaPagar status;
 

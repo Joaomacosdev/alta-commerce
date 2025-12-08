@@ -11,13 +11,15 @@ public class NotaFiscalvenda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String numero;
+    @Column(nullable = false)
     private String serie;
-    private String tipo;
-    @Column(columnDefinition = "TEXT")
-    private String xml;
 
-    @Column(columnDefinition = "TEXT")
+    private String tipo;
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String xml;
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String pdf;
 
     @OneToOne

@@ -22,6 +22,7 @@ public class ItemVendaLoja {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "vd_cp_loja_fk"))
     private VdCpLoja vdCpLoja;
 
+    @Column(nullable = false)
     private Double quantidade;
 
     public ItemVendaLoja() {

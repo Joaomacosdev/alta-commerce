@@ -1,5 +1,6 @@
 package br.com.altacommerce.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -7,10 +8,15 @@ import jakarta.persistence.Table;
 @Table(name = "pessoa_juridica")
 public class PessoaJuridica extends Pessoa{
 
+    @Column(nullable = false, unique = true)
     private String cnpj;
+    @Column(nullable = false)
     private String inscEstadual;
+    @Column(nullable = false)
     private String inscMunicipal;
+    @Column(nullable = false, unique = true)
     private String nomeFantasia;
+    @Column(nullable = false)
     private String razaoSocial;
     private String categoria;
 

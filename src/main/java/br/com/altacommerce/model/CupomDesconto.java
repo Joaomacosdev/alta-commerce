@@ -13,6 +13,7 @@ public class CupomDesconto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
+    @Column(nullable = false)
     private String codDesc;
     private BigDecimal valorRealDesc;
     private BigDecimal valorPorcentDesc;

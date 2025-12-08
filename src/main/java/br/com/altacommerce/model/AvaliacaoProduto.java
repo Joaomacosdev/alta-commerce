@@ -11,8 +11,10 @@ public class AvaliacaoProduto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String descricao;
-    private Integer note;
+    @Column(nullable = false)
+    private Integer nota;
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id", nullable = false,
@@ -27,10 +29,9 @@ public class AvaliacaoProduto {
     public AvaliacaoProduto() {
     }
 
-    public AvaliacaoProduto(Long id, String descricao, Integer note, Pessoa pessoa, Produto produto) {
-        this.id = id;
+    public AvaliacaoProduto(String descricao, Integer nota, Pessoa pessoa, Produto produto) {
         this.descricao = descricao;
-        this.note = note;
+        this.nota = nota;
         this.pessoa = pessoa;
         this.produto = produto;
     }
@@ -53,12 +54,12 @@ public class AvaliacaoProduto {
         return this;
     }
 
-    public Integer getNote() {
-        return note;
+    public Integer getNota() {
+        return nota;
     }
 
-    public AvaliacaoProduto setNote(Integer note) {
-        this.note = note;
+    public AvaliacaoProduto setNota(Integer nota) {
+        this.nota = nota;
         return this;
     }
 

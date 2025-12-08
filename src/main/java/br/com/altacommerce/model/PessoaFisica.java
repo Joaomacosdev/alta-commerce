@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Table(name = "pessoa_fisica")
 public class PessoaFisica extends Pessoa{
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cpf;
 
     private LocalDate dataNascimento;

@@ -1,7 +1,6 @@
 package br.com.altacommerce.model;
 
 import jakarta.persistence.*;
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
@@ -20,7 +19,6 @@ public class Acesso implements GrantedAuthority {
     }
 
     public Acesso(Long id, String descricao) {
-        this.id = id;
         this.descricao = descricao;
     }
 
@@ -30,7 +28,7 @@ public class Acesso implements GrantedAuthority {
 
 
     @Override
-    public @Nullable String getAuthority() {
+    public  String getAuthority() {
         return this.descricao;
     }
 

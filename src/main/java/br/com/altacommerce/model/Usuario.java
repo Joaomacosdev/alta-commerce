@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "usuario")
@@ -16,8 +17,11 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String login;
+    @Column(nullable = false)
     private String senha;
+    @Column(nullable = false)
     private LocalDate dataAtualSenha;
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -30,6 +34,22 @@ public class Usuario implements UserDetails {
     , inverseJoinColumns = @JoinColumn(name = "acesso_id", unique = false, referencedColumnName = "id", table = "acesso",
             foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
     private List<Acesso> acessos;
+
+    @ManyToOne
+    @JoinColumn(name = "pessoa_id", nullable = false,
+    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+    private Pessoa pessoa;
+
+    public Usuario() {
+    }
+
+    public Usuario(String login, String senha, LocalDate dataAtualSenha, List<Acesso> acessos, Pessoa pessoa) {
+        this.login = login;
+        this.senha = senha;
+        this.dataAtualSenha = dataAtualSenha;
+        this.acessos = acessos;
+        this.pessoa = pessoa;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,5 +84,72 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Usuario setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public Usuario setLogin(String login) {
+        this.login = login;
+        return this;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public Usuario setSenha(String senha) {
+        this.senha = senha;
+        return this;
+    }
+
+    public LocalDate getDataAtualSenha() {
+        return dataAtualSenha;
+    }
+
+    public Usuario setDataAtualSenha(LocalDate dataAtualSenha) {
+        this.dataAtualSenha = dataAtualSenha;
+        return this;
+    }
+
+    public List<Acesso> getAcessos() {
+        return acessos;
+    }
+
+    public Usuario setAcessos(List<Acesso> acessos) {
+        this.acessos = acessos;
+        return this;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public Usuario setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Usuario usuario = (Usuario) object;
+        return Objects.equals(getId(), usuario.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
     }
 }
