@@ -19,8 +19,6 @@ public class Acesso implements GrantedAuthority {
     public Acesso() {
     }
 
-
-
     public Acesso(AcessoRequestDTO dto) {
         this.descricao = dto.descricao();
     }

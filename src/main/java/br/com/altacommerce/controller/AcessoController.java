@@ -1,8 +1,11 @@
 package br.com.altacommerce.controller;
 
+import br.com.altacommerce.dto.request.AcessoDeleteRequestDTO;
 import br.com.altacommerce.dto.request.AcessoRequestDTO;
 import br.com.altacommerce.dto.response.AcessoResponseDTO;
 import br.com.altacommerce.service.AcessoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -26,9 +29,26 @@ public class AcessoController {
         return ResponseEntity.created(uri).body(acesso);
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<AcessoResponseDTO> getAcessoById(@PathVariable Long id){
+        return ResponseEntity.ok().body(acessoService.getAcessoById(id));
+    }
+
+    @GetMapping("/desc/{desc}")
+    public ResponseEntity<Page<AcessoResponseDTO>> getAllAcesso(@PathVariable String desc, Pageable pageable){
+        var acesso = acessoService.getAllAcesso(desc, pageable);
+        return ResponseEntity.ok().body(acesso);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteAcesso(@RequestBody AcessoDeleteRequestDTO dto){
+        acessoService.deleteAcessoPorID(dto.id());
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAcesso(@PathVariable Long id){
-        acessoService.deleteAcesso(id);
+    public ResponseEntity<Void> deleteAcessoPorId(@PathVariable Long id){
+        acessoService.deleteAcessoPorID(id);
         return ResponseEntity.noContent().build();
     }
 }
