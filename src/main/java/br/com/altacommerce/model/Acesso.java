@@ -1,5 +1,6 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.AcessoRequestDTO;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -18,8 +19,10 @@ public class Acesso implements GrantedAuthority {
     public Acesso() {
     }
 
-    public Acesso(Long id, String descricao) {
-        this.descricao = descricao;
+
+
+    public Acesso(AcessoRequestDTO dto) {
+        this.descricao = dto.descricao();
     }
 
     public Long getId() {
