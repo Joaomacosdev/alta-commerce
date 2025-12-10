@@ -20,20 +20,15 @@ public abstract class Pessoa {
     @Column(nullable = false)
     private String telefone;
 
+    @Column
+    private String tipoPessoa;
+
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Endereco> enderecos;
-
-
 
     public Pessoa() {
     }
 
-    public Pessoa(Long id, String nome, String email, String telefone) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.telefone = telefone;
-    }
 
     public Long getId() {
         return id;
@@ -68,6 +63,15 @@ public abstract class Pessoa {
 
     public Pessoa setTelefone(String telefone) {
         this.telefone = telefone;
+        return this;
+    }
+
+    public String getTipoPessoa() {
+        return tipoPessoa;
+    }
+
+    public Pessoa setTipoPessoa(String tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
         return this;
     }
 
