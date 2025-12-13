@@ -1,9 +1,9 @@
 package br.com.altacommerce.infra.exception;
 
-import java.util.Date;
+import java.time.Instant;
 
 public record ExceptionResponse(
-        Date timestamp,
+        Instant timestamp,
         String message,
         String details
 ) {

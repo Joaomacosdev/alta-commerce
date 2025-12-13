@@ -11,4 +11,6 @@ public interface AcessoRepository extends JpaRepository<Acesso, Long> {
 
     Page<Acesso> findByDescricaoContainingIgnoreCase(String descricao, Pageable pageable);
 
+    Boolean existsByDescricao(String desc);
+
 }

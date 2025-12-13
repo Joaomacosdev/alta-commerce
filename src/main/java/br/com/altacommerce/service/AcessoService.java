@@ -6,6 +6,7 @@ import br.com.altacommerce.dto.response.AcessoResponseDTO;
 import br.com.altacommerce.infra.exception.NotFoundException;
 import br.com.altacommerce.model.Acesso;
 import br.com.altacommerce.repository.AcessoRepository;
+import br.com.altacommerce.service.validator.AcessoValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class AcessoService {
 
     private final AcessoRepository acessoRepository;
+    private final AcessoValidator acessoValidator;
 
-    public AcessoService(AcessoRepository acessoRepository) {
+    public AcessoService(AcessoRepository acessoRepository, AcessoValidator acessoValidator) {
         this.acessoRepository = acessoRepository;
+        this.acessoValidator = acessoValidator;
     }
 
     @Transactional
     public AcessoResponseDTO createAcesso(AcessoRequestDTO dto){
         Acesso acesso = new Acesso(dto);
+        acesso.setDescricao(acesso.getDescricao().toUpperCase());
+        acessoValidator.verificarSalaExistente(acesso.getDescricao());
         acessoRepository.save(acesso);
         return new AcessoResponseDTO(acesso);
     }
