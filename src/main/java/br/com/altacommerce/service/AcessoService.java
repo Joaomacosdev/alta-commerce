@@ -27,7 +27,7 @@ public class AcessoService {
     public AcessoResponseDTO createAcesso(AcessoRequestDTO dto){
         Acesso acesso = new Acesso(dto);
         acesso.setDescricao(acesso.getDescricao().toUpperCase());
-        acessoValidator.verificarSalaExistente(acesso.getDescricao());
+        acessoValidator.verificarAcessoExistente(acesso.getDescricao());
         acessoRepository.save(acesso);
         return new AcessoResponseDTO(acesso);
     }

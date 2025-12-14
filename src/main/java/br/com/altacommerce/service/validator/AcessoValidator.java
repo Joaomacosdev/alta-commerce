@@ -13,7 +13,7 @@ public class AcessoValidator {
         this.acessoRepository = acessoRepository;
     }
 
-    public void verificarSalaExistente(String descricao){
+    public void verificarAcessoExistente(String descricao){
         if (acessoRepository.existsByDescricao(descricao)){
             throw new BusinessException("Acesso com descrição: " + descricao + " já existe" );
         }

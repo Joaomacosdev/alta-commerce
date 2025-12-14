@@ -37,6 +37,19 @@ public class TokenService {
         }
     }
 
+    public String gerarRefreshToken(Usuario usuario) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            return JWT.create()
+                    .withIssuer(issuer)
+                    .withSubject(usuario.getId().toString())
+                    .withExpiresAt(dataExpiracao(expirationDays))
+                    .sign(algorithm);
+        } catch (JWTCreationException exception){
+            throw new RuntimeException("erro ao gerar token " + exception.getMessage());
+        }
+    }
+
     public String getSubject(String tokenJWT){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -53,5 +66,6 @@ public class TokenService {
     private Instant dataExpiracao(Integer tempoDia) {
         return LocalDateTime.now().plusDays(tempoDia).toInstant(ZoneOffset.of("-03:00"));
     }
+
 
 }

@@ -6,9 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "usuario")
@@ -33,7 +31,8 @@ public class Usuario implements UserDetails {
             table = "usuario", unique = false, foreignKey = @ForeignKey(name = "usuario_fk", value = ConstraintMode.CONSTRAINT))
     , inverseJoinColumns = @JoinColumn(name = "acesso_id", unique = false, referencedColumnName = "id", table = "acesso",
             foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
-    private List<Acesso> acessos;
+    private Set<Acesso> acessos = new HashSet<>();
+    ;
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id", nullable = false,
@@ -43,7 +42,7 @@ public class Usuario implements UserDetails {
     public Usuario() {
     }
 
-    public Usuario(String login, String senha, LocalDate dataAtualSenha, List<Acesso> acessos, Pessoa pessoa) {
+    public Usuario(String login, String senha, LocalDate dataAtualSenha, Set<Acesso> acessos, Pessoa pessoa) {
         this.login = login;
         this.senha = senha;
         this.dataAtualSenha = dataAtualSenha;
@@ -122,11 +121,11 @@ public class Usuario implements UserDetails {
         return this;
     }
 
-    public List<Acesso> getAcessos() {
+    public Set<Acesso> getAcessos() {
         return acessos;
     }
 
-    public Usuario setAcessos(List<Acesso> acessos) {
+    public Usuario setAcessos(Set<Acesso> acessos) {
         this.acessos = acessos;
         return this;
     }

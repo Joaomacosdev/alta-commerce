@@ -13,7 +13,7 @@ public class Acesso implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "descricao", nullable = false)
+    @Column(name = "descricao", nullable = false, unique = true)
     private String descricao; // exemplo: ROLE_ADMIN, ROLE_USER
 
     public Acesso() {

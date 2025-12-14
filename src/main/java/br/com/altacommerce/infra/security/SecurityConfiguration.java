@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll();
+                    req.requestMatchers(HttpMethod.POST, "/api/v1/login/atualizar-token").permitAll();
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

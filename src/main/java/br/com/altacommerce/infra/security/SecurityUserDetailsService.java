@@ -1,4 +1,4 @@
-package br.com.altacommerce.service;
+package br.com.altacommerce.infra.security;
 
 import br.com.altacommerce.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
