@@ -1,7 +1,6 @@
 # 🛒 Sistema de Gestão de Loja Virtual
 
-Aplicação desenvolvida utilizando **Java 21** e **Spring Boot**, com foco na gestão completa de um e-commerce: produtos,
-usuários, finanças, notas fiscais, categorias, vendas e muito mais.
+Aplicação desenvolvida utilizando **Java 21** e **Spring Boot**, com foco na gestão completa de um e-commerce: produtos, usuários, finanças, notas fiscais, categorias, vendas e muito mais.
 
 ---
 
@@ -21,7 +20,7 @@ usuários, finanças, notas fiscais, categorias, vendas e muito mais.
 
 ### ⚙️ Desenvolvimento
 
-![DevTools](https://img.shields.io/badge/Spring%20DevTools-FF5722?logo=spring&logoColor=white)
+![Spring DevTools](https://img.shields.io/badge/Spring%20DevTools-FF5722?logo=spring&logoColor=white)
 
 ### 🛠️ Ferramentas
 
@@ -44,6 +43,53 @@ Este sistema foi modelado com base em um **diagrama UML completo**, contemplando
 - ⭐ Avaliações de produtos
 - 🚚 Rastreio de pedidos
 
+---
+
+## 📂 Estrutura do Projeto
+
+A estrutura do projeto segue boas práticas de organização, separando responsabilidades e facilitando manutenção e escalabilidade.
+
+```plaintext
+br.com.altacommerce
+│
+├── config
+│   └── Configurações gerais do Spring
+│
+├── controller
+│   └── Controladores REST
+│
+├── dto
+│   ├── auth
+│   │   ├── request
+│   │   └── response
+│   ├── request
+│   └── response
+│
+├── infra
+│   ├── exception
+│   │   └── Exceções personalizadas e handlers
+│   └── security
+│       └── Configurações do Spring Security
+│
+├── model
+│   └── Entidades do domínio
+│
+├── repository
+│   └── Repositórios JPA
+│
+├── service
+│   ├── validator
+│   │   └── Regras e validações de negócio
+│   └── Serviços da aplicação
+│
+├── util
+│   └── Classes utilitárias
+│
+├── resources
+│   └── application.properties / application.yml
+│
+└── AltacommerceApplication
+```
 ---
 
 ## 📂 Principais Domínios do Sistema
@@ -99,8 +145,13 @@ spring.datasource.url=jdbc:postgresql://localhost:5433/altacommerce
 spring.datasource.username=root
 spring.datasource.password=senha
 spring.datasource.driver-class-name=org.postgresql.Driver
+
 spring.jpa.hibernate.ddl-auto=update
-spring.datasource.platform=postgresqltrue
+spring.jpa.show-sql=true
+
+spring.flyway.enabled=true
+spring.flyway.locations=classpath:db/migration
+
 ```
 
 ### 2️⃣ Rodar o projeto
