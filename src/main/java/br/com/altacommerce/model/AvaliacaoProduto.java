@@ -26,15 +26,14 @@ public class AvaliacaoProduto {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
     private Produto produto;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public AvaliacaoProduto() {
     }
 
-    public AvaliacaoProduto(String descricao, Integer nota, Pessoa pessoa, Produto produto) {
-        this.descricao = descricao;
-        this.nota = nota;
-        this.pessoa = pessoa;
-        this.produto = produto;
-    }
 
     public Long getId() {
         return id;
@@ -78,6 +77,15 @@ public class AvaliacaoProduto {
 
     public AvaliacaoProduto setProduto(Produto produto) {
         this.produto = produto;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public AvaliacaoProduto setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

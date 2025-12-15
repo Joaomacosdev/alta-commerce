@@ -38,25 +38,14 @@ public class Produto {
     private Integer qtdClique;
     private Boolean ativo = true;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public Produto() {
     }
 
-    public Produto(String tipoUnidade, String nome, String descricao, Double peso, Double largura, Double altura, Double profundidade, BigDecimal valorVenda, Integer qtdEstoque, Integer qtdAlertaEstoque, String linkyoutube, Boolean alertaQtdEstoque, Integer qtdClique, Boolean ativo) {
-        this.tipoUnidade = tipoUnidade;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.peso = peso;
-        this.largura = largura;
-        this.altura = altura;
-        this.profundidade = profundidade;
-        this.valorVenda = valorVenda;
-        this.qtdEstoque = qtdEstoque;
-        this.qtdAlertaEstoque = qtdAlertaEstoque;
-        this.linkyoutube = linkyoutube;
-        this.alertaQtdEstoque = alertaQtdEstoque;
-        this.qtdClique = qtdClique;
-        this.ativo = ativo;
-    }
 
     public Long getId() {
         return id;
@@ -190,6 +179,15 @@ public class Produto {
 
     public Produto setAtivo(Boolean ativo) {
         this.ativo = ativo;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public Produto setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

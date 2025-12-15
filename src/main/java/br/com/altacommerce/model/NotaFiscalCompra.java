@@ -34,19 +34,14 @@ public class NotaFiscalCompra {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "conta_pagar_fk"))
     private ContaPagar contaPagar;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public NotaFiscalCompra() {
     }
 
-    public NotaFiscalCompra(String serieNota, String descricaoObs, BigDecimal valorTotal, BigDecimal valorDesconto, BigDecimal valorIcms, Date dataCompra, Pessoa pessoa, ContaPagar contaPagar) {
-        this.serieNota = serieNota;
-        this.descricaoObs = descricaoObs;
-        this.valorTotal = valorTotal;
-        this.valorDesconto = valorDesconto;
-        this.valorIcms = valorIcms;
-        this.dataCompra = dataCompra;
-        this.pessoa = pessoa;
-        this.contaPagar = contaPagar;
-    }
 
     public Long getId() {
         return id;
@@ -126,6 +121,15 @@ public class NotaFiscalCompra {
 
     public NotaFiscalCompra setContaPagar(ContaPagar contaPagar) {
         this.contaPagar = contaPagar;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public NotaFiscalCompra setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface AcessoRepository extends JpaRepository<Acesso, Long> {
 
@@ -13,4 +13,5 @@ public interface AcessoRepository extends JpaRepository<Acesso, Long> {
 
     Boolean existsByDescricao(String desc);
 
+    Optional<Acesso> findByDescricao(String roleUser);
 }

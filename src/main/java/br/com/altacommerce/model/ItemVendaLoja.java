@@ -25,15 +25,15 @@ public class ItemVendaLoja {
     @Column(nullable = false)
     private Double quantidade;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public ItemVendaLoja() {
     }
 
-    public ItemVendaLoja(Long id, Produto produto, VdCpLoja vdCpLoja, Double quantidade) {
-        this.id = id;
-        this.produto = produto;
-        this.vdCpLoja = vdCpLoja;
-        this.quantidade = quantidade;
-    }
+
 
     public Long getId() {
         return id;
@@ -68,6 +68,15 @@ public class ItemVendaLoja {
 
     public ItemVendaLoja setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public ItemVendaLoja setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

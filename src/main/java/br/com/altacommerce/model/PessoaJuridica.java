@@ -1,5 +1,6 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.PessoaJuridicaRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -24,14 +25,17 @@ public class PessoaJuridica extends Pessoa{
     public PessoaJuridica() {
     }
 
-    public PessoaJuridica(String cnpj, String inscEstadual, String inscMunicipal, String nomeFantasia, String razaoSocial, String categoria) {
-        this.cnpj = cnpj;
-        this.inscEstadual = inscEstadual;
-        this.inscMunicipal = inscMunicipal;
-        this.nomeFantasia = nomeFantasia;
-        this.razaoSocial = razaoSocial;
-        this.categoria = categoria;
+    public PessoaJuridica(PessoaJuridicaRequestDTO dto) {
+        super(dto.nome(), dto.email(), dto.telefone(), dto.enderecoRequestDTOS().stream()
+                .map(Endereco::new).toList());
+        this.cnpj = dto.cnpj();
+        this.inscEstadual = dto.inscEstadual();
+        this.inscMunicipal = dto.inscMunicipal();
+        this.nomeFantasia = dto.nomeFantasia();
+        this.razaoSocial = dto.razaoSocial();
+        this.categoria = dto.categoria();
     }
+
 
     public String getCnpj() {
         return cnpj;

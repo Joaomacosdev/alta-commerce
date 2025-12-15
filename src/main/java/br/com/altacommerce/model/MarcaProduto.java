@@ -14,13 +14,15 @@ public class MarcaProduto {
     @Column(name = "nome_desc", nullable = false)
     private String nomeDesc;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public MarcaProduto() {
     }
 
-    public MarcaProduto(Long id, String nomeDesc) {
-        this.id = id;
-        this.nomeDesc = nomeDesc;
-    }
+
 
     public Long getId() {
         return id;
@@ -37,6 +39,15 @@ public class MarcaProduto {
 
     public MarcaProduto setNomeDesc(String nomeDesc) {
         this.nomeDesc = nomeDesc;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public MarcaProduto setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

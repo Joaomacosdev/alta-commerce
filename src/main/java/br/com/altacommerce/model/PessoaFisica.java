@@ -1,5 +1,6 @@
 package br.com.altacommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -11,14 +12,10 @@ public class PessoaFisica extends Pessoa{
     @Column(nullable = false, unique = true)
     private String cpf;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
 
     public PessoaFisica() {
-    }
-
-    public PessoaFisica(String cpf, LocalDate dataNascimento) {
-        this.cpf = cpf;
-        this.dataNascimento = dataNascimento;
     }
 
     public String getCpf() {

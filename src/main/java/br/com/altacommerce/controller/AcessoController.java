@@ -36,8 +36,7 @@ public class AcessoController {
 
     @GetMapping("/desc/{desc}")
     public ResponseEntity<Page<AcessoResponseDTO>> getAllAcesso(@PathVariable String desc, Pageable pageable){
-        var acesso = acessoService.getAllAcesso(desc, pageable);
-        return ResponseEntity.ok().body(acesso);
+        return ResponseEntity.ok().body(acessoService.getAllAcesso(desc, pageable));
     }
 
     @DeleteMapping

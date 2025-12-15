@@ -27,18 +27,15 @@ public class NotaFiscalvenda {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "vd_cp_loja_id_fk"))
     private VdCpLoja vdCpLoja;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public NotaFiscalvenda() {
     }
 
-    public NotaFiscalvenda(Long id, String numero, String serie, String tipo, String xml, String pdf, VdCpLoja vdCpLoja) {
-        this.id = id;
-        this.numero = numero;
-        this.serie = serie;
-        this.tipo = tipo;
-        this.xml = xml;
-        this.pdf = pdf;
-        this.vdCpLoja = vdCpLoja;
-    }
+
 
     public Long getId() {
         return id;
@@ -100,6 +97,15 @@ public class NotaFiscalvenda {
 
     public NotaFiscalvenda setVdCpLoja(VdCpLoja vdCpLoja) {
         this.vdCpLoja = vdCpLoja;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public NotaFiscalvenda setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

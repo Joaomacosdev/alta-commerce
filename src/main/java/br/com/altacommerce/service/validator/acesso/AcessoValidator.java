@@ -1,4 +1,4 @@
-package br.com.altacommerce.service.validator;
+package br.com.altacommerce.service.validator.acesso;
 
 import br.com.altacommerce.infra.exception.BusinessException;
 import br.com.altacommerce.repository.AcessoRepository;

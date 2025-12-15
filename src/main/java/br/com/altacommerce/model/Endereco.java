@@ -1,6 +1,8 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.EnderecoRequestDTO;
 import br.com.altacommerce.model.enums.TipoEndereco;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -32,26 +34,29 @@ public class Endereco {
             nullable = false,
             foreignKey = @ForeignKey(name = "pessoa_fk")
     )
+    @JsonIgnore
     private Pessoa pessoa;
 
     @Enumerated(EnumType.STRING)
     private TipoEndereco tipoEndereco;
 
+
+
     public Endereco() {
     }
 
-    public Endereco(Long id, String ruaLogradouro, String cep, String numero, String complemento, String bairro, String uf, String cidade, Pessoa pessoa, TipoEndereco tipoEndereco) {
-        this.id = id;
-        this.ruaLogradouro = ruaLogradouro;
-        this.cep = cep;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.uf = uf;
-        this.cidade = cidade;
-        this.pessoa = pessoa;
-        this.tipoEndereco = tipoEndereco;
+    public Endereco(EnderecoRequestDTO dto) {
+        this.ruaLogradouro = dto.ruaLogradouro();
+        this.cep = dto.cep();
+        this.numero = dto.numero();
+        this.complemento = dto.complemento();
+        this.bairro = dto.bairro();
+        this.uf = dto.uf();
+        this.cidade = dto.cidade();
+        this.tipoEndereco = dto.tipoEndereco();
+        // pessoa e empresa podem ser setados depois, se necessário
     }
+
 
     public Long getId() {
         return id;
@@ -142,6 +147,8 @@ public class Endereco {
         this.tipoEndereco = tipoEndereco;
         return this;
     }
+
+
 
     @Override
     public boolean equals(Object object) {

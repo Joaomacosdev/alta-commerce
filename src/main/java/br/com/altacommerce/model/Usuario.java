@@ -1,5 +1,6 @@
 package br.com.altacommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,10 +16,11 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String login;
     @Column(nullable = false)
     private String senha;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @Column(nullable = false)
     private LocalDate dataAtualSenha;
 
@@ -32,23 +34,22 @@ public class Usuario implements UserDetails {
     , inverseJoinColumns = @JoinColumn(name = "acesso_id", unique = false, referencedColumnName = "id", table = "acesso",
             foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
     private Set<Acesso> acessos = new HashSet<>();
-    ;
+
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id", nullable = false,
     foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public Usuario() {
     }
 
-    public Usuario(String login, String senha, LocalDate dataAtualSenha, Set<Acesso> acessos, Pessoa pessoa) {
-        this.login = login;
-        this.senha = senha;
-        this.dataAtualSenha = dataAtualSenha;
-        this.acessos = acessos;
-        this.pessoa = pessoa;
-    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -136,6 +137,15 @@ public class Usuario implements UserDetails {
 
     public Usuario setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public Usuario setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

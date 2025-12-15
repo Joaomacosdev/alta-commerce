@@ -58,23 +58,15 @@ public class VdCpLoja {
     @Column(nullable = false)
     private Date dataEntrega;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public VdCpLoja() {
     }
 
-    public VdCpLoja(Pessoa pessoa, Endereco enderecoEntrega, Endereco endercoCobranca, BigDecimal valorTotal, BigDecimal valorDesconto, FormaPagamento formaPagamento, NotaFiscalvenda notaFiscalvenda, CupomDesconto cupomDesconto, BigDecimal valorFrete, Integer diasEntrega, Date dataVenda, Date dataEntrega) {
-        this.pessoa = pessoa;
-        this.enderecoEntrega = enderecoEntrega;
-        this.endercoCobranca = endercoCobranca;
-        this.valorTotal = valorTotal;
-        this.valorDesconto = valorDesconto;
-        this.formaPagamento = formaPagamento;
-        this.notaFiscalvenda = notaFiscalvenda;
-        this.cupomDesconto = cupomDesconto;
-        this.valorFrete = valorFrete;
-        this.diasEntrega = diasEntrega;
-        this.dataVenda = dataVenda;
-        this.dataEntrega = dataEntrega;
-    }
+
 
     public Long getId() {
         return id;
@@ -190,6 +182,15 @@ public class VdCpLoja {
 
     public VdCpLoja setDataEntrega(Date dataEntrega) {
         this.dataEntrega = dataEntrega;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public VdCpLoja setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

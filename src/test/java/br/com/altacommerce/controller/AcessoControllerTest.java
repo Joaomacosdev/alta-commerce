@@ -3,6 +3,7 @@ package br.com.altacommerce.controller;
 import br.com.altacommerce.dto.request.AcessoRequestDTO;
 import br.com.altacommerce.model.Acesso;
 import br.com.altacommerce.repository.AcessoRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc(addFilters = false)
 @SpringBootTest
 @Transactional
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@AutoConfigureMockMvc
 class AcessoControllerTest {
 
     @Autowired
@@ -35,6 +36,11 @@ class AcessoControllerTest {
 
     @Nested
     class Sucesso {
+
+        @BeforeEach
+        void limparBanco() {
+            acessoRepository.deleteAll();
+        }
 
 
         @Test

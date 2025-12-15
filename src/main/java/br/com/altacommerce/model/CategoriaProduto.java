@@ -14,6 +14,11 @@ public class CategoriaProduto {
     @Column(name = "nome_desc", nullable = false)
     private String nomeDesc;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public CategoriaProduto() {
     }
 
@@ -37,6 +42,15 @@ public class CategoriaProduto {
 
     public CategoriaProduto setNomeDesc(String nomeDesc) {
         this.nomeDesc = nomeDesc;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public CategoriaProduto setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

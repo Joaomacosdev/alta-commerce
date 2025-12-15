@@ -20,16 +20,15 @@ public class CupomDesconto {
 
     private Date dataValidade;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public CupomDesconto() {
     }
 
-    public CupomDesconto(Long id, String codDesc, BigDecimal valorRealDesc, BigDecimal valorPorcentDesc, Date dataValidade) {
-        this.id = id;
-        this.codDesc = codDesc;
-        this.valorRealDesc = valorRealDesc;
-        this.valorPorcentDesc = valorPorcentDesc;
-        this.dataValidade = dataValidade;
-    }
+
 
     public Long getId() {
         return id;
@@ -73,6 +72,15 @@ public class CupomDesconto {
 
     public CupomDesconto setDataValidade(Date dataValidade) {
         this.dataValidade = dataValidade;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public CupomDesconto setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

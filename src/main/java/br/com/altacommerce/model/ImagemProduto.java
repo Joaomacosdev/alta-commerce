@@ -21,15 +21,14 @@ public class ImagemProduto {
     foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
     private Produto produto;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public ImagemProduto() {
     }
 
-    public ImagemProduto(Long id, String imagemOriginal, String imagemMiniatura, Produto produto) {
-        this.id = id;
-        this.imagemOriginal = imagemOriginal;
-        this.imagemMiniatura = imagemMiniatura;
-        this.produto = produto;
-    }
 
     public Long getId() {
         return id;
@@ -64,6 +63,15 @@ public class ImagemProduto {
 
     public ImagemProduto setProduto(Produto produto) {
         this.produto = produto;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public ImagemProduto setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

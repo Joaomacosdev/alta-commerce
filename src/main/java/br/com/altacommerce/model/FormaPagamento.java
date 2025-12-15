@@ -14,13 +14,15 @@ public class FormaPagamento {
     @Column(nullable = false)
     private String descricao;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public FormaPagamento() {
     }
 
-    public FormaPagamento(Long id, String descricao) {
-        this.id = id;
-        this.descricao = descricao;
-    }
+
 
     public Long getId() {
         return id;
@@ -37,6 +39,15 @@ public class FormaPagamento {
 
     public FormaPagamento setDescricao(String descricao) {
         this.descricao = descricao;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public FormaPagamento setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

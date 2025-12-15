@@ -24,15 +24,15 @@ public class NotaItemProduto {
     @Column(nullable = false)
     private Double quantidade;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public NotaItemProduto() {
     }
 
-    public NotaItemProduto(Long id, NotaFiscalCompra notaFiscalCompra, Produto produto, Double quantidade) {
-        this.id = id;
-        this.notaFiscalCompra = notaFiscalCompra;
-        this.produto = produto;
-        this.quantidade = quantidade;
-    }
+
 
     public Long getId() {
         return id;
@@ -67,6 +67,15 @@ public class NotaItemProduto {
 
     public NotaItemProduto setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public NotaItemProduto setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

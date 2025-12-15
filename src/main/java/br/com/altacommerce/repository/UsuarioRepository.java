@@ -3,6 +3,12 @@ package br.com.altacommerce.repository;
 import br.com.altacommerce.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    Usuario findByLogin(String login);
+    Optional<Usuario> findByLogin(String login);
+
+
+
+    Optional<Usuario> findByPessoaId(Long id);
 }

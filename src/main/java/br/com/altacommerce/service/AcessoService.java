@@ -6,7 +6,7 @@ import br.com.altacommerce.dto.response.AcessoResponseDTO;
 import br.com.altacommerce.infra.exception.NotFoundException;
 import br.com.altacommerce.model.Acesso;
 import br.com.altacommerce.repository.AcessoRepository;
-import br.com.altacommerce.service.validator.AcessoValidator;
+import br.com.altacommerce.service.validator.acesso.AcessoValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

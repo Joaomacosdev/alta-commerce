@@ -45,20 +45,15 @@ public class ContaPagar {
     @Enumerated(EnumType.STRING)
     private StatusContaPagar status;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
+
     public ContaPagar() {
     }
 
-    public ContaPagar(Long id, String descricao, Date dtVencimento, Date dtPagamento, BigDecimal valorTotal, BigDecimal valorDesconto, Pessoa pessoa, Pessoa pessoaFornecedor, StatusContaPagar status) {
-        this.id = id;
-        this.descricao = descricao;
-        this.dtVencimento = dtVencimento;
-        this.dtPagamento = dtPagamento;
-        this.valorTotal = valorTotal;
-        this.valorDesconto = valorDesconto;
-        this.pessoa = pessoa;
-        this.pessoaFornecedor = pessoaFornecedor;
-        this.status = status;
-    }
+
 
     public Long getId() {
         return id;
@@ -138,6 +133,15 @@ public class ContaPagar {
 
     public ContaPagar setPessoaFornecedor(Pessoa pessoaFornecedor) {
         this.pessoaFornecedor = pessoaFornecedor;
+        return this;
+    }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public ContaPagar setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
         return this;
     }
 

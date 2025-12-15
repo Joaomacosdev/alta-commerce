@@ -2,6 +2,18 @@
 
 Aplicação desenvolvida utilizando **Java 21** e **Spring Boot**, com foco na gestão completa de um e-commerce: produtos, usuários, finanças, notas fiscais, categorias, vendas e muito mais.
 
+O projeto simula um ambiente corporativo completo, contemplando gestão de usuários, produtos, vendas, financeiro, notas fiscais e pedidos online.
+
+## 🎯 Objetivo do Projeto
+
+Demonstrar domínio prático em:
+
+- Desenvolvimento de APIs REST escaláveis
+- Arquitetura em camadas bem definida
+- Segurança com Spring Security
+- Modelagem de domínio orientada a negócio
+- Versionamento e migração de banco de dados
+- Boas práticas de organização e padronização de código
 ---
 
 ## 🚀 Tecnologias Utilizadas
@@ -44,6 +56,14 @@ Este sistema foi modelado com base em um **diagrama UML completo**, contemplando
 - 🚚 Rastreio de pedidos
 
 ---
+
+## 🏗️ Arquitetura e Padrões
+
+- Arquitetura em camadas (Controller, Service, Repository)
+- DTOs para isolamento da camada de API
+- Validações de negócio centralizadas
+- Tratamento global de exceções
+- Princípios de responsabilidade única (SRP)
 
 ## 📂 Estrutura do Projeto
 
@@ -177,6 +197,10 @@ mvn spring-boot:run
 🚧 Desenvolvimento em andamento
 
 ---
+
+## 🧑‍💻 Autor
+
+Projeto desenvolvido por João Marcos, com foco em consolidar conhecimentos práticos em Java, Spring Boot e arquitetura de software, simulando desafios encontrados em ambientes corporativos reais.
 
 ## 📜 Licença
 
