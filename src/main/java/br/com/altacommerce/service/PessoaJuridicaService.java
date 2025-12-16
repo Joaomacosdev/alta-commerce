@@ -12,7 +12,6 @@ import br.com.altacommerce.repository.AcessoRepository;
 import br.com.altacommerce.repository.PessoaJuridicaRepository;
 import br.com.altacommerce.repository.UsuarioRepository;
 import br.com.altacommerce.service.validator.pessoaJuridica.ValidatorPessoaJuridica;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,14 +29,16 @@ public class PessoaJuridicaService {
     private final AcessoRepository acessoRepository;
     private final PasswordEncoder passwordEncoder;
     private final List<ValidatorPessoaJuridica> validators;
+    private final EmailService emailService;
 
 
-    public PessoaJuridicaService(PessoaJuridicaRepository pessoaJuridicaRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, List<ValidatorPessoaJuridica> validators, JdbcTemplate jdbcTemplate, AcessoRepository acessoRepository) {
+    public PessoaJuridicaService(PessoaJuridicaRepository pessoaJuridicaRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, List<ValidatorPessoaJuridica> validators,  AcessoRepository acessoRepository, EmailService emailService) {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.validators = validators;
         this.acessoRepository = acessoRepository;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -46,6 +47,7 @@ public class PessoaJuridicaService {
 
         PessoaJuridica pessoaJuridica = new PessoaJuridica(dto);
         pessoaJuridica.setTipoPessoa(TipoPessoa.JURIDICA);
+
 
         if (dto.enderecoRequestDTOS() != null && !dto.enderecoRequestDTOS().isEmpty()) {
             List<Endereco> enderecos = criarEnderecosPessoaJuridica(pessoaJuridica, dto.enderecoRequestDTOS());
@@ -97,8 +99,7 @@ public class PessoaJuridicaService {
         usuario.getAcessos().add(acessoPadrao);
 
 
-        // Opcional: enviar e-mail com a senhaGerada para o usuário
-        // emailService.enviarSenha(pessoa.getEmail(), senhaGerada);
+        emailService.enviarEmailVerificacao(usuario, senhaGerada);
 
         return usuario;
     }
