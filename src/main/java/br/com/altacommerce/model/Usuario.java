@@ -24,6 +24,10 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private LocalDate dataAtualSenha;
 
+    @Column
+    private LocalDate dataUltimaNotificacaoSenha;
+
+
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_acesso",
             uniqueConstraints =
@@ -119,6 +123,15 @@ public class Usuario implements UserDetails {
 
     public Usuario setDataAtualSenha(LocalDate dataAtualSenha) {
         this.dataAtualSenha = dataAtualSenha;
+        return this;
+    }
+
+    public LocalDate getDataUltimaNotificacaoSenha() {
+        return dataUltimaNotificacaoSenha;
+    }
+
+    public Usuario setDataUltimaNotificacaoSenha(LocalDate dataUltimaNotificacaoSenha) {
+        this.dataUltimaNotificacaoSenha = dataUltimaNotificacaoSenha;
         return this;
     }
 

@@ -3,6 +3,7 @@ package br.com.altacommerce.service;
 import br.com.altacommerce.dto.request.EnderecoRequestDTO;
 import br.com.altacommerce.dto.request.PessoaJuridicaRequestDTO;
 import br.com.altacommerce.dto.response.PessoaJuridicaResponseDTO;
+import br.com.altacommerce.infra.exception.NotFoundException;
 import br.com.altacommerce.model.Acesso;
 import br.com.altacommerce.model.Endereco;
 import br.com.altacommerce.model.PessoaJuridica;
@@ -95,7 +96,7 @@ public class PessoaJuridicaService {
         usuario.setSenha(passwordEncoder.encode(senhaGerada));
 
         Acesso acessoPadrao = acessoRepository.findByDescricao("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("Acesso padrão ROLE_USER não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Acesso padrão ROLE_USER não encontrado"));
         usuario.getAcessos().add(acessoPadrao);
 
 
