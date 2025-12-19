@@ -1,7 +1,5 @@
 package br.com.altacommerce.dto.request;
 
-import br.com.altacommerce.model.enums.TipoPessoa;
-
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
@@ -16,12 +14,14 @@ public record PessoaJuridicaRequestDTO(
         @Email(message = "Email inválido")
         String email,
 
+        @NotBlank(message = "Telefone é obrigatório")
         @Pattern(
                 regexp = "^\\+55\\s?\\d{2}\\s?\\d{4,5}-?\\d{4}$",
                 message = "Telefone deve estar no formato +55 XX XXXXX-XXXX"
         )
         String telefone,
 
+        @NotEmpty(message = "Ao menos um endereço é obrigatório")
         @Valid
         List<EnderecoRequestDTO> enderecoRequestDTOS,
 

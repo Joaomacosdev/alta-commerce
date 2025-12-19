@@ -6,18 +6,18 @@ import br.com.altacommerce.repository.PessoaJuridicaRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmailValidator implements ValidatorPessoaJuridica{
+public class CnpjExistenteValidator implements ValidatorPessoaJuridica {
 
     private final PessoaJuridicaRepository pessoaJuridicaRepository;
 
-    public EmailValidator(PessoaJuridicaRepository pessoaJuridicaRepository) {
+    public CnpjExistenteValidator(PessoaJuridicaRepository pessoaJuridicaRepository) {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
     }
 
     @Override
     public void validate(PessoaJuridicaRequestDTO dto) {
-        if (pessoaJuridicaRepository.existsByEmail(dto.email())) {
-            throw new BusinessException("EMAIL já cadastrado");
+        if (pessoaJuridicaRepository.existsByCnpj(dto.cnpj())) {
+            throw new BusinessException("CNPJ já cadastrado");
         }
     }
 }
