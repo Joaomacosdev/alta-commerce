@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,15 +29,17 @@ public class PessoaJuridicaService {
     private final AcessoRepository acessoRepository;
     private final PasswordEncoder passwordEncoder;
     private final List<ValidatorPessoaJuridica> validators;
+    private final EnderecoService enderecoService;
     private final EmailService emailService;
 
 
-    public PessoaJuridicaService(PessoaJuridicaRepository pessoaJuridicaRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, List<ValidatorPessoaJuridica> validators,  AcessoRepository acessoRepository, EmailService emailService) {
+    public PessoaJuridicaService(PessoaJuridicaRepository pessoaJuridicaRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, List<ValidatorPessoaJuridica> validators, AcessoRepository acessoRepository, EnderecoService enderecoService, EmailService emailService) {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.validators = validators;
         this.acessoRepository = acessoRepository;
+        this.enderecoService = enderecoService;
         this.emailService = emailService;
     }
 
@@ -66,22 +67,12 @@ public class PessoaJuridicaService {
         return new PessoaJuridicaResponseDTO(pessoaJuridica);
     }
 
-    private List<Endereco> criarEnderecosPessoaJuridica(PessoaJuridica pessoaJuridica, List<EnderecoRequestDTO> enderecoDTOs) {
-        if (enderecoDTOs == null || enderecoDTOs.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        List<Endereco> enderecos = enderecoDTOs.stream()
-                .map(dto -> {
-                    Endereco endereco = new Endereco(dto);
-                    endereco.setPessoa(pessoaJuridica); // link bidirecional
-                    return endereco;
-                })
-                .toList();
-
-        return new ArrayList<>(enderecos);
+    private List<Endereco> criarEnderecosPessoaJuridica(PessoaJuridica pessoa, List<EnderecoRequestDTO > dtos){
+        return dtos.stream()
+                .map(dto ->
+                    enderecoService.criarEnderecoComCep(pessoa, dto)
+                ).toList();
     }
-
 
 
 

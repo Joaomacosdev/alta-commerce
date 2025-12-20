@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,14 +30,16 @@ public class PessoaFisicaService {
     private final List<ValidatorPessoaFisica> validators;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final EnderecoService enderecoService;
 
-    public PessoaFisicaService(PessoaFisicaRepository pessoaFisicaRepository, UsuarioRepository usuarioRepository, AcessoRepository acessoRepository, List<ValidatorPessoaFisica> validators, PasswordEncoder passwordEncoder, EmailService emailService) {
+    public PessoaFisicaService(PessoaFisicaRepository pessoaFisicaRepository, UsuarioRepository usuarioRepository, AcessoRepository acessoRepository, List<ValidatorPessoaFisica> validators, PasswordEncoder passwordEncoder, EmailService emailService, EnderecoService enderecoService) {
         this.pessoaFisicaRepository = pessoaFisicaRepository;
         this.usuarioRepository = usuarioRepository;
         this.acessoRepository = acessoRepository;
         this.validators = validators;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
+        this.enderecoService = enderecoService;
     }
 
     @Transactional
@@ -49,7 +50,7 @@ public class PessoaFisicaService {
         PessoaFisica pessoaFisica = new PessoaFisica(dto);
         pessoaFisica.setTipoPessoa(TipoPessoa.FISICA);
 
-        if (dto.enderecoRequestDTOS() != null && !dto.enderecoRequestDTOS().isEmpty()){
+        if (dto.enderecoRequestDTOS() != null && !dto.enderecoRequestDTOS().isEmpty()) {
             List<Endereco> enderecos = criarEnderecosPessoaFisica(pessoaFisica, dto.enderecoRequestDTOS());
             pessoaFisica.setEnderecos(enderecos);
         }
@@ -65,19 +66,11 @@ public class PessoaFisicaService {
     }
 
 
-    private List<Endereco> criarEnderecosPessoaFisica(PessoaFisica pessoaFisica, List<EnderecoRequestDTO> enderecoDTOS) {
-        if (enderecoDTOS == null || enderecoDTOS.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        List<Endereco> enderecos = enderecoDTOS.stream()
-                .map(dto -> {
-                    Endereco endereco = new Endereco(dto);
-                    endereco.setPessoa(pessoaFisica);
-                    return endereco;
-                }).toList();
-
-        return new ArrayList<>(enderecos);
+    private List<Endereco> criarEnderecosPessoaFisica(PessoaFisica pessoa, List<EnderecoRequestDTO> dtos) {
+        return dtos.stream()
+                .map(
+                        dto -> enderecoService.criarEnderecoComCep(pessoa, dto)
+                ).toList();
     }
 
     private Usuario criarUsuarioParaPessoaFisica(PessoaFisica pessoa) {
