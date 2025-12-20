@@ -26,7 +26,6 @@ public record PessoaJuridicaRequestDTO(
         List<EnderecoRequestDTO> enderecoRequestDTOS,
 
 
-
         @NotBlank(message = "O CNPJ é obrigatório")
         @Pattern(
                 regexp = "^\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}$",
