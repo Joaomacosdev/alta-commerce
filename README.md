@@ -1,19 +1,25 @@
 # 🛒 Sistema de Gestão de Loja Virtual
 
-Aplicação desenvolvida utilizando **Java 21** e **Spring Boot**, com foco na gestão completa de um e-commerce: produtos, usuários, finanças, notas fiscais, categorias, vendas e muito mais.
-
+O AltaCommerce é uma plataforma robusta de gestão de e-commerce desenvolvida com Java 21 e o ecossistema Spring. O projeto foi arquitetado para simular cenários reais de alta complexidade técnica, integrando módulos de vendas, finanças, logística e controle fiscal em uma única API escalável.
 O projeto simula um ambiente corporativo completo, contemplando gestão de usuários, produtos, vendas, financeiro, notas fiscais e pedidos online.
 
-## 🎯 Objetivo do Projeto
+## 🎯 Diferenciais Técnicos e Arquitetura
 
 Demonstrar domínio prático em:
 
-- Desenvolvimento de APIs REST escaláveis
-- Arquitetura em camadas bem definida
-- Segurança com Spring Security
-- Modelagem de domínio orientada a negócio
-- Versionamento e migração de banco de dados
-- Boas práticas de organização e padronização de código
+- O projeto não se limita ao CRUD básico; ele implementa padrões de mercado utilizados em grandes sistemas corporativos:
+
+- Arquitetura em Camadas: Separação rigorosa entre Controller, Service, Repository e Domain para facilitar a testabilidade.
+
+- Security & Auth: Implementação de controle de acesso granular por perfis (RBAC - Role-Based Access Control) utilizando Spring Security.
+
+- Gestão de Banco de Dados: Uso do Flyway para versionamento de migrations, garantindo a integridade e evolução controlada do schema PostgreSQL.
+
+- Padrão DTO (Data Transfer Object): Desacoplamento das entidades de banco de dados da camada de apresentação para maior segurança e performance.
+
+- Tratamento de Exceções Global: Implementação de um GlobalExceptionHandler para respostas padronizadas e amigáveis ao front-end.
+
+- Domain-Driven Logic: Validações de negócio centralizadas em serviços especialistas, aplicando princípios de Clean Code e SOLID.
 ---
 
 ## 🚀 Tecnologias Utilizadas
@@ -57,13 +63,16 @@ Este sistema foi modelado com base em um **diagrama UML completo**, contemplando
 
 ---
 
-## 🏗️ Arquitetura e Padrões
+## 🏗️ Ecossistema de Módulos
 
-- Arquitetura em camadas (Controller, Service, Repository)
-- DTOs para isolamento da camada de API
-- Validações de negócio centralizadas
-- Tratamento global de exceções
-- Princípios de responsabilidade única (SRP)
+O sistema é dividido em domínios de negócio essenciais para uma operação 360º:
+
+Módulo,Funcionalidades Chave
+- 👤 Identidade,"Gestão híbrida de Pessoa Física (CPF) e Jurídica (CNPJ), controle de múltiplos endereços e permissões."
+- 📦 Catálogo,"Gestão de produtos multivariáveis, categorias, marcas e controle dinâmico de estoque."
+- 💰 Financeiro,Fluxo completo de contas a pagar/receber e integração com diversas formas de pagamento.
+- 🧾 Fiscal,Emissão e controle de Notas Fiscais de entrada (compra) e saída (venda).
+- 🚚 Logística,Rastreio de pedidos em tempo real e cálculo de frete baseado em dimensões/peso.
 
 ## 📂 Estrutura do Projeto
 

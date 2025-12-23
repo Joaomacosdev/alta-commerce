@@ -5,6 +5,7 @@ import br.com.altacommerce.dto.response.CepResponseDTO;
 import br.com.altacommerce.integration.CepClient;
 import br.com.altacommerce.model.Endereco;
 import br.com.altacommerce.model.Pessoa;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,12 @@ public class EnderecoService {
         this.cepClient = cepClient;
     }
 
+    @Cacheable(
+            value = "cep-cache",
+            key = "#cep",
+            unless = "#result == null"
+
+    )
     public CepResponseDTO buscarEnderecoPorCep(String cep){
         if (!cep.matches("\\d{8}")) {
             throw new IllegalArgumentException("CEP inválido");
