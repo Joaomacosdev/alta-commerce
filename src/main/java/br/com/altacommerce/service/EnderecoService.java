@@ -28,7 +28,6 @@ public class EnderecoService {
         Endereco endereco = new Endereco();
         endereco.setPessoa(pessoa);
         endereco.setCep(cepResponse.cep());
-        endereco.setRuaLogradouro(cepResponse.logradouro());
         endereco.setBairro(cepResponse.bairro());
         endereco.setCidade(cepResponse.localidade());
         endereco.setUf(cepResponse.uf());

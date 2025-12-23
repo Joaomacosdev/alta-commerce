@@ -16,7 +16,7 @@ public class CepClient {
     public CepResponseDTO buscarPorCep(String cep){
         return viaCepWebClient
                 .get()
-                .uri("/{cep}.json", cep)
+                .uri("/{cep}/json/", cep)
                 .retrieve()
                 .bodyToMono(CepResponseDTO.class)
                 .block();

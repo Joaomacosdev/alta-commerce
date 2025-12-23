@@ -13,6 +13,9 @@ import br.com.altacommerce.repository.AcessoRepository;
 import br.com.altacommerce.repository.PessoaJuridicaRepository;
 import br.com.altacommerce.repository.UsuarioRepository;
 import br.com.altacommerce.service.validator.pessoaJuridica.ValidatorPessoaJuridica;
+import br.com.altacommerce.util.DocumentoUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +50,10 @@ public class PessoaJuridicaService {
     public PessoaJuridicaResponseDTO createPessoaJuridica(PessoaJuridicaRequestDTO dto) {
         validators.forEach(v -> v.validate(dto));
 
+        String cnpjLimpo = DocumentoUtils.somenteNumeros(dto.cnpj());
+
         PessoaJuridica pessoaJuridica = new PessoaJuridica(dto);
+        pessoaJuridica.setCnpj(cnpjLimpo);
         pessoaJuridica.setTipoPessoa(TipoPessoa.JURIDICA);
 
 
@@ -66,6 +72,24 @@ public class PessoaJuridicaService {
 
         return new PessoaJuridicaResponseDTO(pessoaJuridica);
     }
+
+    @Transactional(readOnly = true)
+    public PessoaJuridicaResponseDTO getPessoaJuridicaCnpj(String cnpj){
+        PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findByCnpj(cnpj).orElseThrow(() -> new NotFoundException("Pessoa Jurídica com CNPJ: " + cnpj + " Não encontrada"));
+        return new PessoaJuridicaResponseDTO(pessoaJuridica);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PessoaJuridicaResponseDTO> getAllPessoa(String nome, Pageable pageable){
+        return pessoaJuridicaRepository.findByNomeContainingIgnoreCase(nome, pageable).map(PessoaJuridicaResponseDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PessoaJuridicaResponseDTO> getAllPessoaJuridicaCnpj(String cnpj, Pageable pageable){
+       return pessoaJuridicaRepository.findByCnpj(cnpj, pageable).map(PessoaJuridicaResponseDTO::new);
+    }
+
+
 
     private List<Endereco> criarEnderecosPessoaJuridica(PessoaJuridica pessoa, List<EnderecoRequestDTO > dtos){
         return dtos.stream()

@@ -13,6 +13,9 @@ import br.com.altacommerce.repository.AcessoRepository;
 import br.com.altacommerce.repository.PessoaFisicaRepository;
 import br.com.altacommerce.repository.UsuarioRepository;
 import br.com.altacommerce.service.validator.pessoaFisica.ValidatorPessoaFisica;
+import br.com.altacommerce.util.DocumentoUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +50,10 @@ public class PessoaFisicaService {
 
         validators.forEach(v -> v.validate(dto));
 
+        String cpfLimpo = DocumentoUtils.somenteNumeros(dto.cpf());
+
         PessoaFisica pessoaFisica = new PessoaFisica(dto);
+        pessoaFisica.setCpf(cpfLimpo);
         pessoaFisica.setTipoPessoa(TipoPessoa.FISICA);
 
         if (dto.enderecoRequestDTOS() != null && !dto.enderecoRequestDTOS().isEmpty()) {
@@ -64,6 +70,24 @@ public class PessoaFisicaService {
 
         return new PessoaFisicaResponseDTO(pessoaFisica);
     }
+
+    @Transactional(readOnly = true)
+    public PessoaFisicaResponseDTO getPessoaFisicaCpf(String cpf){
+        PessoaFisica pessoaFisica = pessoaFisicaRepository.findByCpf(cpf).orElseThrow(() -> new NotFoundException("Pessoa Fisíca com CPF: " + cpf + " Não encontrada"));
+        return new PessoaFisicaResponseDTO(pessoaFisica);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PessoaFisicaResponseDTO> getAllPessoaFisicaCpf(String cnpj, Pageable pageable){
+        return pessoaFisicaRepository.findByCpf(cnpj, pageable).map(PessoaFisicaResponseDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PessoaFisicaResponseDTO> getAllPessoaFisicaNome(String nome, Pageable pageable){
+        return pessoaFisicaRepository.findByNomeContainingIgnoreCase(nome, pageable).map(PessoaFisicaResponseDTO::new);
+    }
+
+
 
 
     private List<Endereco> criarEnderecosPessoaFisica(PessoaFisica pessoa, List<EnderecoRequestDTO> dtos) {
