@@ -1,11 +1,12 @@
 package br.com.altacommerce.service.validator.pessoaFisica;
 
 import br.com.altacommerce.dto.request.PessoaFisicaRequestDTO;
+import br.com.altacommerce.infra.exception.BusinessException;
 import br.com.altacommerce.repository.PessoaFisicaRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CpfExistenteValidator implements ValidatorPessoaFisica{
+public class CpfExistenteValidator implements ValidatorPessoaFisica {
 
     private final PessoaFisicaRepository pessoaFisicaRepository;
 
@@ -15,6 +16,8 @@ public class CpfExistenteValidator implements ValidatorPessoaFisica{
 
     @Override
     public void validate(PessoaFisicaRequestDTO dto) {
-        pessoaFisicaRepository.existsByCpf(dto.cpf());
+        if ( pessoaFisicaRepository.existsByCpf(dto.cpf())){
+            throw new BusinessException("CPF já cadastrado");
+        }
     }
 }

@@ -72,16 +72,17 @@ public class PessoaFisicaService {
         return new PessoaFisicaResponseDTO(pessoaFisica);
     }
 
-    @Cacheable("pessoa-fisica")
     @Transactional(readOnly = true)
     public PessoaFisicaResponseDTO getPessoaFisicaCpf(String cpf){
-        PessoaFisica pessoaFisica = pessoaFisicaRepository.findByCpf(cpf).orElseThrow(() -> new NotFoundException("Pessoa Fisíca com CPF: " + cpf + " Não encontrada"));
+        String cpfLimpo = DocumentoUtils.somenteNumeros(cpf);
+
+        PessoaFisica pessoaFisica = pessoaFisicaRepository.findByCpf(cpfLimpo).orElseThrow(() -> new NotFoundException("Pessoa Fisíca com CPF: " + cpf + " Não encontrada"));
         return new PessoaFisicaResponseDTO(pessoaFisica);
     }
 
     @Transactional(readOnly = true)
-    public Page<PessoaFisicaResponseDTO> getAllPessoaFisicaCpf(String cnpj, Pageable pageable){
-        return pessoaFisicaRepository.findByCpf(cnpj, pageable).map(PessoaFisicaResponseDTO::new);
+    public Page<PessoaFisicaResponseDTO> getAllPessoaFisicaCpf(String cpf, Pageable pageable){
+        return pessoaFisicaRepository.findByCpf(cpf, pageable).map(PessoaFisicaResponseDTO::new);
     }
 
     @Transactional(readOnly = true)

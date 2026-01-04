@@ -75,7 +75,8 @@ public class PessoaJuridicaService {
 
     @Transactional(readOnly = true)
     public PessoaJuridicaResponseDTO getPessoaJuridicaCnpj(String cnpj) {
-        PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findByCnpj(cnpj).orElseThrow(() -> new NotFoundException("Pessoa Jurídica com CNPJ: " + cnpj + " Não encontrada"));
+        String cnpjLimpo = DocumentoUtils.somenteNumeros(cnpj);
+        PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findByCnpj(cnpjLimpo).orElseThrow(() -> new NotFoundException("Pessoa Jurídica com CNPJ: " + cnpj + " Não encontrada"));
         return new PessoaJuridicaResponseDTO(pessoaJuridica);
     }
 

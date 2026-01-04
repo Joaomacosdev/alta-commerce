@@ -1,5 +1,6 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.CategoriaProdutoRequestDTO;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -22,9 +23,9 @@ public class CategoriaProduto {
     public CategoriaProduto() {
     }
 
-    public CategoriaProduto(Long id, String nomeDesc) {
-        this.id = id;
-        this.nomeDesc = nomeDesc;
+
+    public CategoriaProduto(CategoriaProdutoRequestDTO dto) {
+        this.nomeDesc = dto.nomeDesc();
     }
 
     public Long getId() {
