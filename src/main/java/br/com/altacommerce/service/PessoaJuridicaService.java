@@ -74,30 +74,28 @@ public class PessoaJuridicaService {
     }
 
     @Transactional(readOnly = true)
-    public PessoaJuridicaResponseDTO getPessoaJuridicaCnpj(String cnpj){
+    public PessoaJuridicaResponseDTO getPessoaJuridicaCnpj(String cnpj) {
         PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findByCnpj(cnpj).orElseThrow(() -> new NotFoundException("Pessoa Jurídica com CNPJ: " + cnpj + " Não encontrada"));
         return new PessoaJuridicaResponseDTO(pessoaJuridica);
     }
 
     @Transactional(readOnly = true)
-    public Page<PessoaJuridicaResponseDTO> getAllPessoa(String nome, Pageable pageable){
+    public Page<PessoaJuridicaResponseDTO> getAllPessoaJuridicaNome(String nome, Pageable pageable) {
         return pessoaJuridicaRepository.findByNomeContainingIgnoreCase(nome, pageable).map(PessoaJuridicaResponseDTO::new);
     }
 
     @Transactional(readOnly = true)
-    public Page<PessoaJuridicaResponseDTO> getAllPessoaJuridicaCnpj(String cnpj, Pageable pageable){
-       return pessoaJuridicaRepository.findByCnpj(cnpj, pageable).map(PessoaJuridicaResponseDTO::new);
+    public Page<PessoaJuridicaResponseDTO> getAllPessoaJuridicaCnpj(String cnpj, Pageable pageable) {
+        return pessoaJuridicaRepository.findByCnpj(cnpj, pageable).map(PessoaJuridicaResponseDTO::new);
     }
 
 
-
-    private List<Endereco> criarEnderecosPessoaJuridica(PessoaJuridica pessoa, List<EnderecoRequestDTO > dtos){
+    private List<Endereco> criarEnderecosPessoaJuridica(PessoaJuridica pessoa, List<EnderecoRequestDTO> dtos) {
         return dtos.stream()
                 .map(dto ->
-                    enderecoService.criarEnderecoComCep(pessoa, dto)
+                        enderecoService.criarEnderecoComCep(pessoa, dto)
                 ).toList();
     }
-
 
 
     private Usuario criarUsuarioParaPessoaJuridica(PessoaJuridica pessoa) {

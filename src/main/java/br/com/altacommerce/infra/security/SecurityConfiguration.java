@@ -37,6 +37,17 @@ public class SecurityConfiguration {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(req -> {
+
+                    req.requestMatchers(
+                            "/login.html",
+                            "/index.html",
+                            "/login.js",   // 👈 ESTE é o ponto-chave agora
+                            "/js/**",
+                            "/css/**",
+                            "/images/**"
+                    ).permitAll();
+
+
                     req.requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/api/v1/login/atualizar-token").permitAll();
                     req.anyRequest().authenticated();

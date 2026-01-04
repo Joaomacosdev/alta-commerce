@@ -3,6 +3,7 @@ package br.com.altacommerce.controller;
 import br.com.altacommerce.dto.request.PessoaJuridicaRequestDTO;
 import br.com.altacommerce.dto.response.PessoaJuridicaResponseDTO;
 import br.com.altacommerce.service.PessoaJuridicaService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class PessoaJuridicaController {
 
     @GetMapping("/nome/{nome}")
     public ResponseEntity<Page<PessoaJuridicaResponseDTO>> getAllPessoaJuridica(@PathVariable String nome, Pageable pageable){
-        return ResponseEntity.ok().body(pessoaJuridicaService.getAllPessoa(nome, pageable));
+        return ResponseEntity.ok().body(pessoaJuridicaService.getAllPessoaJuridicaNome(nome, pageable));
     }
 
     @GetMapping("/listar/cnpj/{cnpj}")

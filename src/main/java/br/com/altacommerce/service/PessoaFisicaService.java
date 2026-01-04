@@ -14,6 +14,7 @@ import br.com.altacommerce.repository.PessoaFisicaRepository;
 import br.com.altacommerce.repository.UsuarioRepository;
 import br.com.altacommerce.service.validator.pessoaFisica.ValidatorPessoaFisica;
 import br.com.altacommerce.util.DocumentoUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -71,6 +72,7 @@ public class PessoaFisicaService {
         return new PessoaFisicaResponseDTO(pessoaFisica);
     }
 
+    @Cacheable("pessoa-fisica")
     @Transactional(readOnly = true)
     public PessoaFisicaResponseDTO getPessoaFisicaCpf(String cpf){
         PessoaFisica pessoaFisica = pessoaFisicaRepository.findByCpf(cpf).orElseThrow(() -> new NotFoundException("Pessoa Fisíca com CPF: " + cpf + " Não encontrada"));
