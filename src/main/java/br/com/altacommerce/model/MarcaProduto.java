@@ -1,5 +1,6 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.MarcaProdutoRequestDTO;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -22,6 +23,9 @@ public class MarcaProduto {
     public MarcaProduto() {
     }
 
+    public MarcaProduto(MarcaProdutoRequestDTO dto) {
+        this.nomeDesc = dto.nomeDesc();
+    }
 
 
     public Long getId() {

@@ -1,7 +1,7 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.ContaPagarRequestDTO;
 import br.com.altacommerce.model.enums.StatusContaPagar;
-import br.com.altacommerce.model.enums.StatusContaReceber;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -39,7 +39,7 @@ public class ContaPagar {
             nullable = false,
             foreignKey = @ForeignKey(name = "pessoa_forn_fk")
     )
-    private Pessoa pessoaFornecedor;
+    private PessoaJuridica pessoaFornecedor;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -53,6 +53,16 @@ public class ContaPagar {
     public ContaPagar() {
     }
 
+
+
+    public ContaPagar(ContaPagarRequestDTO dto) {
+        this.descricao = dto.descricao();
+        this.dtVencimento = dto.dtVencimento();
+        this.dtPagamento = dto.dtPagamento();
+        this.valorTotal = dto.valorTotal();
+        this.valorDesconto = dto.valorDesconto();
+
+    }
 
 
     public Long getId() {
@@ -127,11 +137,11 @@ public class ContaPagar {
         return this;
     }
 
-    public Pessoa getPessoaFornecedor() {
+    public PessoaJuridica getPessoaFornecedor() {
         return pessoaFornecedor;
     }
 
-    public ContaPagar setPessoaFornecedor(Pessoa pessoaFornecedor) {
+    public ContaPagar setPessoaFornecedor(PessoaJuridica pessoaFornecedor) {
         this.pessoaFornecedor = pessoaFornecedor;
         return this;
     }

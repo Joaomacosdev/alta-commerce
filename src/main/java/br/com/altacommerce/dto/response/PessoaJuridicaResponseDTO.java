@@ -3,6 +3,7 @@ package br.com.altacommerce.dto.response;
 import br.com.altacommerce.model.Endereco;
 import br.com.altacommerce.model.PessoaJuridica;
 import br.com.altacommerce.model.enums.TipoPessoa;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public record PessoaJuridicaResponseDTO(
         String email,
         String telefone,
         TipoPessoa tipoPessoa,
-        List<Endereco> enderecos,
+     //   List<Endereco> enderecos,
         String cnpj,
         String inscEstadual,
         String inscMunicipal,
@@ -28,7 +29,7 @@ public record PessoaJuridicaResponseDTO(
                 pessoaJuridica.getEmail(),
                 pessoaJuridica.getTelefone(),
                 pessoaJuridica.getTipoPessoa(),
-                pessoaJuridica.getEnderecos(),
+             //   pessoaJuridica.getEnderecos(),
                 pessoaJuridica.getCnpj(),
                 pessoaJuridica.getInscEstadual(),
                 pessoaJuridica.getInscMunicipal(),
