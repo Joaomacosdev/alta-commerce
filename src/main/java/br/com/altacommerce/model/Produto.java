@@ -1,5 +1,6 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.ProdutoRequestDTO;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -43,7 +44,41 @@ public class Produto {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
     private PessoaJuridica empresa;
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_produto_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "categoria_produto_fk"))
+    private CategoriaProduto categoriaProduto;
+
+
+    @ManyToOne
+    @JoinColumn(name = "marca_produto_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "marca_produto_fk"))
+    private MarcaProduto marcaProduto;
+
+    @ManyToOne
+    @JoinColumn(name = "nota_item_produto_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_item_produto_fk"))
+    private NotaItemProduto notaItemProduto;
+
+
     public Produto() {
+    }
+
+    public Produto(ProdutoRequestDTO dto) {
+        this.tipoUnidade = dto.tipoUnidade();
+        this.nome = dto.nome();
+        this.descricao = dto.descricao();
+        this.peso = dto.peso();
+        this.largura = dto.largura();
+        this.altura = dto.altura();
+        this.profundidade = dto.profundidade();
+        this.valorVenda = dto.valorVenda();
+        this.qtdEstoque = dto.qtdEstoque();
+        this.qtdAlertaEstoque = dto.qtdAlertaEstoque();
+        this.linkyoutube = dto.linkyoutube();
+        this.alertaQtdEstoque = dto.alertaQtdEstoque();
+        this.qtdClique = dto.qtdClique();
+        this.ativo = dto.ativo();
     }
 
 
@@ -188,6 +223,33 @@ public class Produto {
 
     public Produto setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
+        return this;
+    }
+
+    public CategoriaProduto getCategoriaProduto() {
+        return categoriaProduto;
+    }
+
+    public Produto setCategoriaProduto(CategoriaProduto categoriaProduto) {
+        this.categoriaProduto = categoriaProduto;
+        return this;
+    }
+
+    public MarcaProduto getMarcaProduto() {
+        return marcaProduto;
+    }
+
+    public Produto setMarcaProduto(MarcaProduto marcaProduto) {
+        this.marcaProduto = marcaProduto;
+        return this;
+    }
+
+    public NotaItemProduto getNotaItemProduto() {
+        return notaItemProduto;
+    }
+
+    public Produto setNotaItemProduto(NotaItemProduto notaItemProduto) {
+        this.notaItemProduto = notaItemProduto;
         return this;
     }
 
