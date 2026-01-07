@@ -12,9 +12,15 @@ public class NotaItemProduto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "nota_fiscal_compra_id", nullable = false,
-    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_fiscal_compra_fk"))
+    @ManyToOne(optional = false)
+    @JoinColumn(
+            name = "nota_fiscal_compra_id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    value = ConstraintMode.CONSTRAINT,
+                    name = "nota_fiscal_compra_fk"
+            )
+    )
     private NotaFiscalCompra notaFiscalCompra;
 
     @ManyToOne

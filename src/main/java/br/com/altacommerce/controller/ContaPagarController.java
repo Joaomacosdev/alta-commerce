@@ -30,7 +30,7 @@ public class ContaPagarController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<ContaPagarResponseDTO> getByIdContaPagar(@PathVariable Long id) {
+    public ResponseEntity<ContaPagarResponseDTO> getNotaFiscalCompraById(@PathVariable Long id) {
         return ResponseEntity.ok().body(contaPagarService.getByIdContaPagar(id));
     }
 

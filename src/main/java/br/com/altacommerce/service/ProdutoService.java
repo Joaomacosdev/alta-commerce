@@ -71,7 +71,6 @@ public class ProdutoService {
         produto.setEmpresa(buscarEmpresa(dto.empresaId()));
         produto.setCategoriaProduto(buscarCategoria(dto.categoriaProdutoId()));
         produto.setMarcaProduto(buscarMarca(dto.marcaProdutoId()));
-        produto.setNotaItemProduto(buscarNotaItem(dto.notaItemProduto()));
 
         return produto;
     }

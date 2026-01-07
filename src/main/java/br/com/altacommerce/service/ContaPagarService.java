@@ -10,10 +10,13 @@ import br.com.altacommerce.model.enums.StatusContaPagar;
 import br.com.altacommerce.repository.ContaPagarRepository;
 import br.com.altacommerce.repository.PessoaJuridicaRepository;
 import br.com.altacommerce.repository.PessoaRepository;
+import br.com.altacommerce.service.validator.contaPagar.ValidatorContaPagar;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ContaPagarService {
@@ -21,16 +24,21 @@ public class ContaPagarService {
     private final ContaPagarRepository contaPagarRepository;
     private final PessoaJuridicaRepository pessoaJuridicaRepository;
     private final PessoaRepository pessoaRepository;
+    private final List<ValidatorContaPagar> validators;
 
-    public ContaPagarService(ContaPagarRepository contaPagarRepository, PessoaJuridicaRepository pessoaJuridicaRepository, PessoaRepository pessoaRepository) {
+    public ContaPagarService(ContaPagarRepository contaPagarRepository, PessoaJuridicaRepository pessoaJuridicaRepository, PessoaRepository pessoaRepository, List<ValidatorContaPagar> validators) {
         this.contaPagarRepository = contaPagarRepository;
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
         this.pessoaRepository = pessoaRepository;
+        this.validators = validators;
     }
 
     @Transactional
     public ContaPagarResponseDTO createContaPagar(ContaPagarRequestDTO dto) {
-        ContaPagar contaPagar = motarContaPagar(dto);
+
+        validators.forEach(v -> v.validate(dto));
+
+        ContaPagar contaPagar = montarContaPagar(dto);
         contaPagarRepository.save(contaPagar);
         return new ContaPagarResponseDTO(contaPagar);
     }
@@ -65,13 +73,14 @@ public class ContaPagarService {
 
     //----------------------------------------------------//
 
-    private ContaPagar motarContaPagar(ContaPagarRequestDTO dto) {
+    private ContaPagar montarContaPagar(ContaPagarRequestDTO dto) {
         ContaPagar contaPagar = new ContaPagar(dto);
         contaPagar.setPessoa(buscarPessoaId(dto.pessoaId()));
         contaPagar.setPessoaFornecedor(buscarFornecedorId(dto.pessoaFornecedorId()));
         contaPagar.setEmpresa(buscarEmpresaId(dto.empresaId()));
 
         contaPagar.setStatus(StatusContaPagar.cobranca);
+        contaPagar.aplicarDesconto();
 
         return contaPagar;
     }
@@ -90,4 +99,6 @@ public class ContaPagarService {
         return pessoaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Pessoa com id: " + id + " não encotrado"));
     }
+
+
 }

@@ -1,10 +1,14 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.NotaFiscalCompraRequestDTO;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "nota_fiscal_compra")
@@ -22,7 +26,11 @@ public class NotaFiscalCompra {
     @Column(nullable = false)
     private BigDecimal valorIcms;
     @Column(nullable = false)
-    private Date dataCompra;
+    private BigDecimal valorFinal;
+    @Column(nullable = false)
+    private LocalDate dataCompra;
+
+
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id", nullable = false,
@@ -39,7 +47,34 @@ public class NotaFiscalCompra {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
     private PessoaJuridica empresa;
 
+
+    @OneToMany(
+            mappedBy = "notaFiscalCompra",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private List<NotaItemProduto> itens = new ArrayList<>();
+
     public NotaFiscalCompra() {
+    }
+
+    public NotaFiscalCompra(NotaFiscalCompraRequestDTO dto) {
+        this.serieNota = dto.serieNota();
+        this.descricaoObs = dto.descricaoObs();
+        this.valorTotal = dto.valorTotal();
+        this.valorDesconto = dto.valorDesconto();
+        this.valorIcms = dto.valorIcms();
+    }
+
+    public void calcularValorFinal() {
+        BigDecimal total = Optional.ofNullable(valorTotal).orElse(BigDecimal.ZERO);
+        BigDecimal icms = Optional.ofNullable(valorIcms).orElse(BigDecimal.ZERO);
+        BigDecimal desconto = Optional.ofNullable(valorDesconto).orElse(BigDecimal.ZERO);
+
+        this.valorFinal = total
+                .add(icms)
+                .subtract(desconto);
     }
 
 
@@ -92,16 +127,25 @@ public class NotaFiscalCompra {
         return valorIcms;
     }
 
+    public BigDecimal getValorFinal() {
+        return valorFinal;
+    }
+
+    public NotaFiscalCompra setValorFinal(BigDecimal valorFinal) {
+        this.valorFinal = valorFinal;
+        return this;
+    }
+
     public NotaFiscalCompra setValorIcms(BigDecimal valorIcms) {
         this.valorIcms = valorIcms;
         return this;
     }
 
-    public Date getDataCompra() {
+    public LocalDate getDataCompra() {
         return dataCompra;
     }
 
-    public NotaFiscalCompra setDataCompra(Date dataCompra) {
+    public NotaFiscalCompra setDataCompra(LocalDate dataCompra) {
         this.dataCompra = dataCompra;
         return this;
     }
@@ -132,6 +176,21 @@ public class NotaFiscalCompra {
         this.empresa = empresa;
         return this;
     }
+
+    public List<NotaItemProduto> getItens() {
+        return itens;
+    }
+
+    public void adicionarItem(NotaItemProduto item) {
+        itens.add(item);
+        item.setNotaFiscalCompra(this);
+    }
+
+    public void removerItem(NotaItemProduto item) {
+        itens.remove(item);
+        item.setNotaFiscalCompra(null);
+    }
+
 
     @Override
     public boolean equals(Object object) {

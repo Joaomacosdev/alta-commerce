@@ -23,6 +23,8 @@ public class ContaPagar {
     @Column(nullable = false)
     private BigDecimal valorTotal;
     private BigDecimal valorDesconto;
+    @Column(nullable = false)
+    private BigDecimal valorFinal;
 
     @ManyToOne
     @JoinColumn(
@@ -64,6 +66,10 @@ public class ContaPagar {
 
     }
 
+    public void aplicarDesconto(){
+        BigDecimal desconto = valorDesconto != null ? valorDesconto :BigDecimal.ZERO;
+        this.valorFinal = this.valorTotal.subtract(desconto);
+    }
 
     public Long getId() {
         return id;
@@ -116,6 +122,15 @@ public class ContaPagar {
 
     public ContaPagar setValorDesconto(BigDecimal valorDesconto) {
         this.valorDesconto = valorDesconto;
+        return this;
+    }
+
+    public BigDecimal getValorFinal() {
+        return valorFinal;
+    }
+
+    public ContaPagar setValorFinal(BigDecimal valorFinal) {
+        this.valorFinal = valorFinal;
         return this;
     }
 

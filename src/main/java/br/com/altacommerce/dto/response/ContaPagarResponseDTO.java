@@ -15,6 +15,7 @@ public record ContaPagarResponseDTO(
         Date dtPagamento,
         BigDecimal valorTotal,
         BigDecimal valorDesconto,
+        BigDecimal valorFinal,
         StatusContaPagar status,
 
         PessoaResponseDTO pessoa,
@@ -29,6 +30,7 @@ public record ContaPagarResponseDTO(
                 contaPagar.getDtPagamento(),
                 contaPagar.getValorTotal(),
                 contaPagar.getValorDesconto(),
+                contaPagar.getValorFinal(),
                 contaPagar.getStatus(),
                 new PessoaResponseDTO(contaPagar.getPessoa()),
                 new PessoaJuridicaResponseDTO(contaPagar.getPessoaFornecedor()),

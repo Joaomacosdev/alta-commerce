@@ -55,10 +55,7 @@ public class Produto {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "marca_produto_fk"))
     private MarcaProduto marcaProduto;
 
-    @ManyToOne
-    @JoinColumn(name = "nota_item_produto_id", nullable = false,
-            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_item_produto_fk"))
-    private NotaItemProduto notaItemProduto;
+
 
 
     public Produto() {
@@ -244,14 +241,7 @@ public class Produto {
         return this;
     }
 
-    public NotaItemProduto getNotaItemProduto() {
-        return notaItemProduto;
-    }
 
-    public Produto setNotaItemProduto(NotaItemProduto notaItemProduto) {
-        this.notaItemProduto = notaItemProduto;
-        return this;
-    }
 
     @Override
     public boolean equals(Object object) {
