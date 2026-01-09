@@ -1,9 +1,12 @@
 package br.com.altacommerce.model;
 
 import br.com.altacommerce.dto.request.ProdutoRequestDTO;
+import br.com.altacommerce.model.enums.TipoUnidade;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,10 +18,11 @@ public class Produto {
     private Long id;
 
     @Column(nullable = false)
-    private String tipoUnidade;
+    @Enumerated(EnumType.STRING)
+    private TipoUnidade tipoUnidade;
     @Column(nullable = false)
     private String nome;
-    @Column(columnDefinition = "TEXT", nullable = false,length = 2000)
+    @Column(columnDefinition = "TEXT", nullable = false, length = 2000)
     private String descricao;
     @Column(nullable = false)
     private Double peso;
@@ -38,6 +42,8 @@ public class Produto {
     private Boolean alertaQtdEstoque = false;
     private Integer qtdClique;
     private Boolean ativo = true;
+    private Boolean alertaEstoqueEnviado = false;
+
 
     @ManyToOne
     @JoinColumn(name = "empresa_id", nullable = false,
@@ -55,7 +61,8 @@ public class Produto {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "marca_produto_fk"))
     private MarcaProduto marcaProduto;
 
-
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImagemProduto> imagemProdutos = new ArrayList<>();
 
 
     public Produto() {
@@ -74,7 +81,6 @@ public class Produto {
         this.qtdAlertaEstoque = dto.qtdAlertaEstoque();
         this.linkyoutube = dto.linkyoutube();
         this.alertaQtdEstoque = dto.alertaQtdEstoque();
-        this.qtdClique = dto.qtdClique();
         this.ativo = dto.ativo();
     }
 
@@ -88,11 +94,11 @@ public class Produto {
         return this;
     }
 
-    public String getTipoUnidade() {
+    public TipoUnidade getTipoUnidade() {
         return tipoUnidade;
     }
 
-    public Produto setTipoUnidade(String tipoUnidade) {
+    public Produto setTipoUnidade(TipoUnidade tipoUnidade) {
         this.tipoUnidade = tipoUnidade;
         return this;
     }
@@ -241,7 +247,23 @@ public class Produto {
         return this;
     }
 
+    public Boolean getAlertaEstoqueEnviado() {
+        return alertaEstoqueEnviado;
+    }
 
+    public Produto setAlertaEstoqueEnviado(Boolean alertaEstoqueEnviado) {
+        this.alertaEstoqueEnviado = alertaEstoqueEnviado;
+        return this;
+    }
+
+    public List<ImagemProduto> getImagemProdutos() {
+        return imagemProdutos;
+    }
+
+    public Produto setImagemProdutos(List<ImagemProduto> imagemProdutos) {
+        this.imagemProdutos = imagemProdutos;
+        return this;
+    }
 
     @Override
     public boolean equals(Object object) {

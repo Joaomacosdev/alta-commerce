@@ -7,9 +7,9 @@ public record CategoriaProdutoResponseDTO(
 
         Long id,
         String nomeDesc,
-        PessoaJuridica empresa
+        PessoaJuridicaResponseDTO empresa
 ) {
         public CategoriaProdutoResponseDTO(CategoriaProduto categoriaProduto) {
-                this(categoriaProduto.getId(), categoriaProduto.getNomeDesc(), categoriaProduto.getEmpresa());
+                this(categoriaProduto.getId(), categoriaProduto.getNomeDesc(), new PessoaJuridicaResponseDTO(categoriaProduto.getEmpresa()));
         }
 }

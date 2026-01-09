@@ -1,15 +1,13 @@
 package br.com.altacommerce.dto.response;
 
-import br.com.altacommerce.model.CategoriaProduto;
-import br.com.altacommerce.model.MarcaProduto;
-import br.com.altacommerce.model.PessoaJuridica;
 import br.com.altacommerce.model.Produto;
+import br.com.altacommerce.model.enums.TipoUnidade;
 
 import java.math.BigDecimal;
 
 public record ProdutoResponseDTO(
         Long id,
-        String tipoUnidade,
+        TipoUnidade tipoUnidade,
         String nome,
         String descricao,
         Double peso,
@@ -23,14 +21,20 @@ public record ProdutoResponseDTO(
         Boolean alertaQtdEstoque,
         Integer qtdClique,
         Boolean ativo,
-        PessoaJuridica empresaId,
-        CategoriaProduto categoriaProduto,
-        MarcaProduto marcaProduto
+        ImagemProdutoResponseDTO imagens,
+        PessoaJuridicaResponseDTO empresa,
+        CategoriaProdutoResponseDTO categoriaProduto,
+        MarcaProdutoResponseDTO marcaProduto
 ) {
     public ProdutoResponseDTO(Produto produto) {
         this(produto.getId(), produto.getTipoUnidade(), produto.getNome(), produto.getDescricao(), produto.getPeso(),
                 produto.getLargura(), produto.getAltura(), produto.getProfundidade(), produto.getValorVenda(), produto.getQtdEstoque(),
                 produto.getQtdAlertaEstoque(), produto.getLinkyoutube(), produto.getAlertaQtdEstoque(), produto.getQtdClique(),
-                produto.getAtivo(), produto.getEmpresa(), produto.getCategoriaProduto(), produto.getMarcaProduto());
+                produto.getAtivo(),
+                new ImagemProdutoResponseDTO(produto.getImagemProdutos()),
+                new PessoaJuridicaResponseDTO(produto.getEmpresa()),
+                new CategoriaProdutoResponseDTO(produto.getCategoriaProduto()),
+                new MarcaProdutoResponseDTO(produto.getMarcaProduto()));
+
     }
 }

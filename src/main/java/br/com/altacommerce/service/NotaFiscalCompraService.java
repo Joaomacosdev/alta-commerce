@@ -1,6 +1,7 @@
 package br.com.altacommerce.service;
 
 import br.com.altacommerce.dto.request.NotaFiscalCompraRequestDTO;
+import br.com.altacommerce.dto.request.NotaItemProdutoRequestDTO;
 import br.com.altacommerce.dto.response.NotaFiscalCompraResponseDTO;
 import br.com.altacommerce.infra.exception.NotFoundException;
 import br.com.altacommerce.model.*;
@@ -30,7 +31,7 @@ public class NotaFiscalCompraService {
     }
 
     @Transactional
-    public NotaFiscalCompraResponseDTO createNotaFiscalCompra(NotaFiscalCompraRequestDTO dto){
+    public NotaFiscalCompraResponseDTO createNotaFiscalCompra(NotaFiscalCompraRequestDTO dto) {
         NotaFiscalCompra notaFiscalCompra = montarNotaFiscalCompra(dto);
         notaFiscalCompraRepository.save(notaFiscalCompra);
         return new NotaFiscalCompraResponseDTO(notaFiscalCompra);
@@ -43,7 +44,7 @@ public class NotaFiscalCompraService {
 
     @Transactional(readOnly = true)
     public NotaFiscalCompraResponseDTO getNotaFiscalCompraById(Long id) {
-       NotaFiscalCompra notaFiscalCompra = notaFiscalCompraRepository.findById(id)
+        NotaFiscalCompra notaFiscalCompra = notaFiscalCompraRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Pessoa com id: " + id + " não encontrada"));
         return new NotaFiscalCompraResponseDTO(notaFiscalCompra);
     }
@@ -66,48 +67,49 @@ public class NotaFiscalCompraService {
 
     //-----------------------------------------------------------//
 
-    private NotaFiscalCompra montarNotaFiscalCompra(NotaFiscalCompraRequestDTO dto){
+    private NotaFiscalCompra montarNotaFiscalCompra(NotaFiscalCompraRequestDTO dto) {
         NotaFiscalCompra notaFiscalCompra = new NotaFiscalCompra(dto);
         notaFiscalCompra.setPessoa(buscarPessoaId(dto.pessoaId()));
         notaFiscalCompra.setContaPagar(buscarContaPagarId(dto.contaPagarId()));
         notaFiscalCompra.setEmpresa(buscarEmpresaId(dto.empresaId()));
         notaFiscalCompra.setDataCompra(LocalDate.now());
 
-        for (var itemDto : dto.itens()) {
+        for (NotaItemProdutoRequestDTO itemDto : dto.itens()) {
 
             Produto produto = produtoRepository.findById(itemDto.produtoId())
                     .orElseThrow(() -> new NotFoundException(
                             "Produto com ID: " + itemDto.produtoId() + " não encontrado"));
 
-            NotaItemProduto item = new NotaItemProduto();
-            item.setProduto(produto);
-            item.setQuantidade(itemDto.quantidade());
-            item.setEmpresa(notaFiscalCompra.getEmpresa());
+            NotaItemProduto notaItemProduto = new NotaItemProduto();
+            notaItemProduto.setProduto(produto);
+            notaItemProduto.setQuantidade(itemDto.quantidade());
+            notaItemProduto.setEmpresa(notaFiscalCompra.getEmpresa());
 
-            notaFiscalCompra.adicionarItem(item);
+            notaFiscalCompra.adicionarItem(notaItemProduto);
+
+
         }
+
 
         notaFiscalCompra.calcularValorFinal();
 
         return notaFiscalCompra;
     }
 
-    private Pessoa buscarPessoaId(Long id){
+    private Pessoa buscarPessoaId(Long id) {
         return pessoaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Pessoa com ID: " + id + " não encontrado"));
     }
 
-    private ContaPagar buscarContaPagarId(Long id){
+    private ContaPagar buscarContaPagarId(Long id) {
         return contaPagarRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Conta a pagar com ID: " + id + " não encontrado"));
     }
 
-    private PessoaJuridica buscarEmpresaId(Long id){
+    private PessoaJuridica buscarEmpresaId(Long id) {
         return pessoaJuridicaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Empresa com ID: " + id + " não encontrado"));
     }
-
-
 
 
 }
