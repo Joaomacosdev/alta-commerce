@@ -23,7 +23,7 @@ public class NotaFiscalvenda {
     private String pdf;
 
     @OneToOne
-    @JoinColumn(name = "vd_cp_loja_id", nullable = false,
+    @JoinColumn(name = "vd_cp_loja_id", nullable = true,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "vd_cp_loja_id_fk"))
     private VdCpLoja vdCpLoja;
 

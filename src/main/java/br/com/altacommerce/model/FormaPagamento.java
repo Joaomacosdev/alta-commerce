@@ -1,5 +1,6 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.FormaPagamentoRequestDTO;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -22,7 +23,9 @@ public class FormaPagamento {
     public FormaPagamento() {
     }
 
-
+    public FormaPagamento(FormaPagamentoRequestDTO dto) {
+        this.descricao = dto.descricao();
+    }
 
     public Long getId() {
         return id;

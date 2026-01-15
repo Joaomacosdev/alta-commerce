@@ -1,9 +1,12 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.VdCpLojaRequestDTO;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,7 +17,20 @@ public class VdCpLoja {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @Column(nullable = false)
+    private BigDecimal valorFrete;
+    @Column(nullable = false)
+    private Integer diasEntrega;
+
+    @Column(nullable = false)
+    private LocalDate dataVenda;
+    @Column(nullable = false)
+    private LocalDate dataEntrega;
+    @Column(nullable = false)
+    private BigDecimal valorTotal;
+    private BigDecimal valorDesconto;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey =
     @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
@@ -24,23 +40,19 @@ public class VdCpLoja {
     @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_entrega_fk"))
     private Endereco enderecoEntrega;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "enderco_cobranca_id", nullable = false, foreignKey =
     @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "enderco_cobranca_fk"))
     private Endereco endercoCobranca;
 
-    @Column(nullable = false)
-    private BigDecimal valorTotal;
-    private BigDecimal valorDesconto;
-
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "forma_pagamento_id", nullable = false, foreignKey =
     @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "forma_pagamento_fk"))
     private FormaPagamento formaPagamento;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "nota_fiscal_venda_id", nullable = false,
-    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_fiscal_venda_fk"))
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_fiscal_venda_fk"))
     private NotaFiscalvenda notaFiscalvenda;
 
     @ManyToOne
@@ -48,24 +60,26 @@ public class VdCpLoja {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "cupom_desconto_fk"))
     private CupomDesconto cupomDesconto;
 
-    @Column(nullable = false)
-    private BigDecimal valorFrete;
-    @Column(nullable = false)
-    private Integer diasEntrega;
 
-    @Column(nullable = false)
-    private Date dataVenda;
-    @Column(nullable = false)
-    private Date dataEntrega;
-
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "empresa_id", nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
     private PessoaJuridica empresa;
 
+    @OneToMany(mappedBy = "vdCpLoja", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ItemVendaLoja> itemVendaLojas = new ArrayList<>();
+
     public VdCpLoja() {
     }
 
+
+    public VdCpLoja(VdCpLojaRequestDTO dto) {
+        this.valorFrete = dto.valorFrete();
+        this.diasEntrega = dto.diasEntrega();
+        this.dataEntrega = dto.dataEntrega();
+        this.valorTotal = dto.valorTotal();
+        this.valorDesconto = dto.valorDesconto();
+    }
 
 
     public Long getId() {
@@ -167,20 +181,20 @@ public class VdCpLoja {
         return this;
     }
 
-    public Date getDataVenda() {
+    public LocalDate getDataVenda() {
         return dataVenda;
     }
 
-    public VdCpLoja setDataVenda(Date dataVenda) {
+    public VdCpLoja setDataVenda(LocalDate dataVenda) {
         this.dataVenda = dataVenda;
         return this;
     }
 
-    public Date getDataEntrega() {
+    public LocalDate getDataEntrega() {
         return dataEntrega;
     }
 
-    public VdCpLoja setDataEntrega(Date dataEntrega) {
+    public VdCpLoja setDataEntrega(LocalDate dataEntrega) {
         this.dataEntrega = dataEntrega;
         return this;
     }
@@ -192,6 +206,20 @@ public class VdCpLoja {
     public VdCpLoja setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
         return this;
+    }
+
+    public List<ItemVendaLoja> getItemVendaLojas() {
+        return itemVendaLojas;
+    }
+
+    public VdCpLoja setItemVendaLojas(List<ItemVendaLoja> itemVendaLojas) {
+        this.itemVendaLojas = itemVendaLojas;
+        return this;
+    }
+
+    public void adicionarItem(ItemVendaLoja item) {
+        this.itemVendaLojas.add(item);
+        item.setVdCpLoja(this);
     }
 
     @Override

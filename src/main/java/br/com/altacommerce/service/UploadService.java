@@ -1,5 +1,11 @@
 package br.com.altacommerce.service;
 
+import br.com.altacommerce.dto.response.ImagemProdutoResponseDTO;
+import br.com.altacommerce.infra.exception.NotFoundException;
+import br.com.altacommerce.model.ImagemProduto;
+import br.com.altacommerce.repository.ImagemProdutoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -15,6 +21,23 @@ public class UploadService {
 
     private static final int LARGURA_PADRAO = 800;
     private static final int ALTURA_PADRAO = 600;
+    private final ImagemProdutoRepository imagemProdutoRepository;
+
+    public UploadService(ImagemProdutoRepository imagemProdutoRepository) {
+        this.imagemProdutoRepository = imagemProdutoRepository;
+    }
+
+    public Page<ImagemProdutoResponseDTO> findaAllImagemProdutos(Long id, Pageable pageable){
+        return imagemProdutoRepository.findAllById(id, pageable).map(ImagemProdutoResponseDTO::new);
+    }
+
+    public void deleteImagem(Long id){
+        ImagemProduto imagemProduto = imagemProdutoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Imagem do produto não encontrada"));
+
+        imagemProdutoRepository.delete(imagemProduto);
+    }
+
 
     public String gerarMiniaturaBase64(String imagemBase64) {
         try {

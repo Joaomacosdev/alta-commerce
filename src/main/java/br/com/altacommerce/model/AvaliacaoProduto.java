@@ -1,5 +1,7 @@
 package br.com.altacommerce.model;
 
+import br.com.altacommerce.dto.request.AcessoDeleteRequestDTO;
+import br.com.altacommerce.dto.request.AvaliacaoProdutoRequestDTO;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -32,6 +34,12 @@ public class AvaliacaoProduto {
     private PessoaJuridica empresa;
 
     public AvaliacaoProduto() {
+    }
+
+
+    public AvaliacaoProduto(AvaliacaoProdutoRequestDTO dto) {
+        this.descricao = dto.descricao();
+        this.nota = dto.nota();
     }
 
 
