@@ -6,10 +6,13 @@ import br.com.altacommerce.dto.response.VdCpLojaResponseDTO;
 import br.com.altacommerce.infra.exception.NotFoundException;
 import br.com.altacommerce.model.*;
 import br.com.altacommerce.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collections;
 
 @Service
 public class VdCpLojaService {
@@ -32,11 +35,11 @@ public class VdCpLojaService {
 
     @Transactional
     public VdCpLojaResponseDTO createVdCpLoja(VdCpLojaRequestDTO dto){
-
         VdCpLoja vdCpLoja = montarVdCpLoja(dto);
         NotaFiscalvenda notaFiscalvenda = montarNotaFiscalVenda(dto, vdCpLoja);
         vdCpLoja.setNotaFiscalvenda(notaFiscalvenda);
-
+        StatusRastreio statusRastreio = criarStatusInicial(vdCpLoja);
+        vdCpLoja.setStatusRastreios(Collections.singletonList(statusRastreio));
         vdCpLojaRepository.save(vdCpLoja);
         return new VdCpLojaResponseDTO(vdCpLoja);
 
@@ -49,6 +52,31 @@ public class VdCpLojaService {
 
         return new VdCpLojaResponseDTO(vdCpLoja);
     }
+
+    @Transactional(readOnly = true)
+    public Page<VdCpLojaResponseDTO> getAllVendaProdutoNome(String nome, Pageable pageable){
+        return vdCpLojaRepository.buscarPorNomeProduto(nome, pageable).map(VdCpLojaResponseDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<VdCpLojaResponseDTO> getAllVendaClienteNome(String nome, Pageable pageable){
+        return vdCpLojaRepository.buscarPorNomePessoa(nome, pageable).map(VdCpLojaResponseDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<VdCpLojaResponseDTO> getAllVendaDataVenda(  LocalDate inicio,
+                                                            LocalDate fim, Pageable pageable){
+        return vdCpLojaRepository.findByDataVendaGreaterThanEqualAndDataVendaLessThanEqual(inicio, fim,pageable).map(VdCpLojaResponseDTO::new);
+    }
+
+    @Transactional
+    public void excluirVenda(Long id) {
+        VdCpLoja venda = vdCpLojaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Venda não encontrada"));
+
+        vdCpLojaRepository.delete(venda);
+    }
+
 
     private VdCpLoja montarVdCpLoja(VdCpLojaRequestDTO dto){
         VdCpLoja vdCpLoja = new VdCpLoja(dto);
@@ -70,8 +98,21 @@ public class VdCpLojaService {
         }
 
 
+
+
         return vdCpLoja;
     }
+
+    private StatusRastreio criarStatusInicial(VdCpLoja vdCpLoja) {
+        StatusRastreio status = new StatusRastreio();
+        status.setCentroDistribuicao("Aracaju");
+        status.setEstado("SE");
+        status.setStatus("ENTREGUE");
+        status.setEmpresa(vdCpLoja.getEmpresa());
+        status.setVdCpLoja(vdCpLoja);
+        return status;
+    }
+
 
     private NotaFiscalvenda montarNotaFiscalVenda(VdCpLojaRequestDTO dto, VdCpLoja vdCpLoja){
         NotaFiscalvenda notaFiscal = new NotaFiscalvenda();

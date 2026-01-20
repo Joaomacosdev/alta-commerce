@@ -22,7 +22,7 @@ public record VdCpLojaResponseDTO(
         NotaFiscalVendaResponseDTO notaFiscalVenda,
         CupomDesconto cupomDesconto,
         PessoaJuridicaResponseDTO empresa,
-        ItemVendaLojaResponseDTO itens
+        List<ItemVendaLojaResponseDTO> itens
 ) {
         public VdCpLojaResponseDTO(VdCpLoja vdCpLoja) {
                 this(
@@ -38,8 +38,10 @@ public record VdCpLojaResponseDTO(
                         new NotaFiscalVendaResponseDTO(vdCpLoja.getNotaFiscalvenda()),
                         vdCpLoja.getCupomDesconto(),
                         new PessoaJuridicaResponseDTO(vdCpLoja.getEmpresa()),
-                        new ItemVendaLojaResponseDTO(vdCpLoja.getItemVendaLojas())
-                );
+                        vdCpLoja.getItemVendaLojas()
+                                .stream()
+                                .map(ItemVendaLojaResponseDTO::new)
+                                .toList()                );
         }
 
 }

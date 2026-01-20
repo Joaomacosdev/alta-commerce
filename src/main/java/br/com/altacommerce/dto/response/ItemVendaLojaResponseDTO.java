@@ -10,7 +10,10 @@ public record ItemVendaLojaResponseDTO(
         Double quantidade,
         ProdutoResponseDTO produto
 ) {
-    public ItemVendaLojaResponseDTO(List<ItemVendaLoja> itemVendaLojas) {
-        this(itemVendaLojas.getFirst().getQuantidade(), new ProdutoResponseDTO(itemVendaLojas.getFirst().getProduto()));
+    public ItemVendaLojaResponseDTO(ItemVendaLoja itemVendaLoja) {
+        this(
+                itemVendaLoja.getQuantidade(),
+                new ProdutoResponseDTO(itemVendaLoja.getProduto())
+        );
     }
 }

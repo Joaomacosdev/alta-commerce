@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                     req.requestMatchers(
                             "/login.html",
                             "/index.html",
-                            "/login.js",   // 👈 ESTE é o ponto-chave agora
+                            "/login.js",
                             "/js/**",
                             "/css/**",
                             "/images/**"

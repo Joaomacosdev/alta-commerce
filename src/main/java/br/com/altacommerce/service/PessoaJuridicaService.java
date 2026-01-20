@@ -49,26 +49,12 @@ public class PessoaJuridicaService {
     @Transactional
     public PessoaJuridicaResponseDTO createPessoaJuridica(PessoaJuridicaRequestDTO dto) {
         validators.forEach(v -> v.validate(dto));
-
-        String cnpjLimpo = DocumentoUtils.somenteNumeros(dto.cnpj());
-
-        PessoaJuridica pessoaJuridica = new PessoaJuridica(dto);
-        pessoaJuridica.setCnpj(cnpjLimpo);
-        pessoaJuridica.setTipoPessoa(TipoPessoa.JURIDICA);
-
-
-        if (dto.enderecoRequestDTOS() != null && !dto.enderecoRequestDTOS().isEmpty()) {
-            List<Endereco> enderecos = criarEnderecosPessoaJuridica(pessoaJuridica, dto.enderecoRequestDTOS());
-            pessoaJuridica.setEnderecos(enderecos);
-        }
-
-
+        PessoaJuridica pessoaJuridica = montarPessoaJuridica(dto);
         pessoaJuridicaRepository.save(pessoaJuridica);
 
         Usuario usuario = usuarioRepository.findByPessoaId(pessoaJuridica.getId())
                 .orElseGet(() -> criarUsuarioParaPessoaJuridica(pessoaJuridica));
         usuarioRepository.save(usuario);
-
 
         return new PessoaJuridicaResponseDTO(pessoaJuridica);
     }
@@ -96,6 +82,24 @@ public class PessoaJuridicaService {
                 .map(dto ->
                         enderecoService.criarEnderecoComCep(pessoa, dto)
                 ).toList();
+    }
+
+    private PessoaJuridica montarPessoaJuridica(PessoaJuridicaRequestDTO dto) {
+
+        String cnpjLimpo = DocumentoUtils.somenteNumeros(dto.cnpj());
+
+
+        PessoaJuridica pessoaJuridica = new PessoaJuridica(dto);
+        pessoaJuridica.setCnpj(cnpjLimpo);
+        pessoaJuridica.setTipoPessoa(TipoPessoa.JURIDICA);
+
+        if (dto.enderecoRequestDTOS() != null && !dto.enderecoRequestDTOS().isEmpty()) {
+            List<Endereco> enderecos = criarEnderecosPessoaJuridica(pessoaJuridica, dto.enderecoRequestDTOS());
+            pessoaJuridica.setEnderecos(enderecos);
+        }
+
+        return pessoaJuridica;
+
     }
 
 

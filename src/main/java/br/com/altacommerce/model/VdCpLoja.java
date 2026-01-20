@@ -30,7 +30,7 @@ public class VdCpLoja {
     private BigDecimal valorTotal;
     private BigDecimal valorDesconto;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey =
     @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
@@ -40,17 +40,18 @@ public class VdCpLoja {
     @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_entrega_fk"))
     private Endereco enderecoEntrega;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "enderco_cobranca_id", nullable = false, foreignKey =
     @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "enderco_cobranca_fk"))
     private Endereco endercoCobranca;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "forma_pagamento_id", nullable = false, foreignKey =
     @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "forma_pagamento_fk"))
     private FormaPagamento formaPagamento;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne( cascade = CascadeType.ALL,
+            orphanRemoval = true)
     @JoinColumn(name = "nota_fiscal_venda_id", nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_fiscal_venda_fk"))
     private NotaFiscalvenda notaFiscalvenda;
@@ -61,13 +62,16 @@ public class VdCpLoja {
     private CupomDesconto cupomDesconto;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "empresa_id", nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
     private PessoaJuridica empresa;
 
     @OneToMany(mappedBy = "vdCpLoja", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ItemVendaLoja> itemVendaLojas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "vdCpLoja", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StatusRastreio> statusRastreios = new ArrayList<>();
 
     public VdCpLoja() {
     }
@@ -215,6 +219,20 @@ public class VdCpLoja {
     public VdCpLoja setItemVendaLojas(List<ItemVendaLoja> itemVendaLojas) {
         this.itemVendaLojas = itemVendaLojas;
         return this;
+    }
+
+    public List<StatusRastreio> getStatusRastreios() {
+        return statusRastreios;
+    }
+
+    public VdCpLoja setStatusRastreios(List<StatusRastreio> statusRastreios) {
+        this.statusRastreios = statusRastreios;
+        return this;
+    }
+
+    public void adicionarStatus(StatusRastreio status){
+        this.statusRastreios.add(status);
+        status.setVdCpLoja(this);
     }
 
     public void adicionarItem(ItemVendaLoja item) {
