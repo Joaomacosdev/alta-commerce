@@ -64,6 +64,11 @@ public class VdCpLojaService {
     }
 
     @Transactional(readOnly = true)
+    public Page<VdCpLojaResponseDTO> getAllVendaClienteCpf(String cpf, Pageable pageable){
+        return vdCpLojaRepository.buscarPorCpfPessoa(cpf, pageable).map(VdCpLojaResponseDTO::new);
+    }
+
+    @Transactional(readOnly = true)
     public Page<VdCpLojaResponseDTO> getAllVendaDataVenda(  LocalDate inicio,
                                                             LocalDate fim, Pageable pageable){
         return vdCpLojaRepository.findByDataVendaGreaterThanEqualAndDataVendaLessThanEqual(inicio, fim,pageable).map(VdCpLojaResponseDTO::new);

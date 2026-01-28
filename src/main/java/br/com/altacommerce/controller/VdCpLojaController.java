@@ -45,6 +45,11 @@ public class VdCpLojaController {
         return ResponseEntity.ok().body(vdCpLojaService.getAllVendaClienteNome(nome, pageable));
     }
 
+    @GetMapping("/cliente/{cpf}")
+    public ResponseEntity<Page<VdCpLojaResponseDTO>> getByAllByVendaClienteCpf(@PathVariable String cpf, Pageable pageable){
+        return ResponseEntity.ok().body(vdCpLojaService.getAllVendaClienteCpf(cpf, pageable));
+    }
+
     @GetMapping("/data/{inicio}/{fim}")
     public ResponseEntity<Page<VdCpLojaResponseDTO>> getByVendaDataVenda(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,

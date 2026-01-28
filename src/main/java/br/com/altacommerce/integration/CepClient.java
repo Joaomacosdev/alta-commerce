@@ -21,6 +21,4 @@ public class CepClient {
                 .bodyToMono(CepResponseDTO.class)
                 .block();
     }
-
-
 }

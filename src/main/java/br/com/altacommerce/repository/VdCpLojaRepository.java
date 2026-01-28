@@ -35,6 +35,17 @@ public interface VdCpLojaRepository extends JpaRepository<VdCpLoja, Long> {
             Pageable pageable
     );
 
+    @Query("""
+    SELECT v
+    FROM VdCpLoja v
+    JOIN v.pessoa p
+    WHERE LOWER(p.cpf) LIKE LOWER(CONCAT('%', :cpf, '%'))
+""")
+    Page<VdCpLoja> buscarPorCpfPessoa(
+            @Param("cpf") String cpf,
+            Pageable pageable
+    );
+
     Page<VdCpLoja> findByDataVendaGreaterThanEqualAndDataVendaLessThanEqual(
             LocalDate inicio,
             LocalDate fim,
