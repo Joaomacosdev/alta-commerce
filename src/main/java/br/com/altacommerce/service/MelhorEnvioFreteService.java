@@ -1,7 +1,9 @@
 package br.com.altacommerce.service;
 
 import br.com.altacommerce.dto.melhor_envio.request.CalculoFreteRequestDTO;
+import br.com.altacommerce.dto.melhor_envio.request.ShipmentRequestDTO;
 import br.com.altacommerce.dto.melhor_envio.response.ServiceResponseDTO;
+import br.com.altacommerce.dto.melhor_envio.response.ShipmentResponseDTO;
 import br.com.altacommerce.integration.MelhorEnvioClient;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +20,9 @@ public class MelhorEnvioFreteService {
 
     public List<ServiceResponseDTO> calcularFrete(CalculoFreteRequestDTO request){
        return melhorEnvioClient.calcularFrete(request);
+    }
+
+    public ShipmentResponseDTO inserirFreteCarrinho(ShipmentRequestDTO request){
+        return melhorEnvioClient.inserirFreteCarrinho(request);
     }
 }

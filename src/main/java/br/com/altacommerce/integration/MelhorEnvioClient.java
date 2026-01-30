@@ -1,7 +1,9 @@
 package br.com.altacommerce.integration;
 
 import br.com.altacommerce.dto.melhor_envio.request.CalculoFreteRequestDTO;
+import br.com.altacommerce.dto.melhor_envio.request.ShipmentRequestDTO;
 import br.com.altacommerce.dto.melhor_envio.response.ServiceResponseDTO;
+import br.com.altacommerce.dto.melhor_envio.response.ShipmentResponseDTO;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -25,4 +27,13 @@ public class MelhorEnvioClient {
                 .bodyToMono(new ParameterizedTypeReference<List<ServiceResponseDTO>>() {})
                 .block();
     }
+
+   public ShipmentResponseDTO inserirFreteCarrinho(ShipmentRequestDTO request){
+        return melhorEnvioWebClient.post()
+                .uri("/api/v2/me/cart")
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(ShipmentResponseDTO.class)
+                .block();
+   }
 }
