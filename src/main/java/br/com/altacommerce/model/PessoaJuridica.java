@@ -25,6 +25,16 @@ public class PessoaJuridica extends Pessoa{
     public PessoaJuridica() {
     }
 
+    @Override
+    public String getDocumentoPrincipal() {
+        return null;
+    }
+
+    @Override
+    public String getDocumentoEmpresa() {
+        return this.cnpj;
+    }
+
     public PessoaJuridica(PessoaJuridicaRequestDTO dto) {
         super(dto.nome(), dto.email(), dto.telefone(), dto.enderecoRequestDTOS().stream()
                 .map(Endereco::new).toList());

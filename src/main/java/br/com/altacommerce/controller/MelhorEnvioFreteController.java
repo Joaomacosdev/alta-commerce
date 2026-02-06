@@ -1,15 +1,16 @@
 package br.com.altacommerce.controller;
 
-import br.com.altacommerce.dto.melhor_envio.request.CalculoFreteRequestDTO;
-import br.com.altacommerce.dto.melhor_envio.request.ShipmentRequestDTO;
-import br.com.altacommerce.dto.melhor_envio.response.ServiceResponseDTO;
-import br.com.altacommerce.dto.melhor_envio.response.ShipmentResponseDTO;
+import br.com.altacommerce.integration.melhor_envio.cart.request.ShipmentRequestDTO;
+import br.com.altacommerce.integration.melhor_envio.checkout.request.ShipmentCheckoutRequestDTO;
+import br.com.altacommerce.integration.melhor_envio.print.request.OrderRequestDTO;
+import br.com.altacommerce.integration.melhor_envio.print.response.OrderResponseDTO;
+import br.com.altacommerce.integration.melhor_envio.calculate.request.CalculoFreteRequestDTO;
+import br.com.altacommerce.integration.melhor_envio.calculate.response.ServiceResponseDTO;
+import br.com.altacommerce.integration.melhor_envio.checkout.response.ShipmentCheckoutResponseDTO;
+import br.com.altacommerce.integration.melhor_envio.cart.response.ShipmentResponseDTO;
 import br.com.altacommerce.service.MelhorEnvioFreteService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,8 +30,18 @@ public class MelhorEnvioFreteController {
         return ResponseEntity.ok().body(melhorEnvioFreteService.calcularFrete(request));
     }
 
-    @PostMapping("/inserir-frete-carrinho")
-    public ResponseEntity<ShipmentResponseDTO> inserirFreteCarrinho(@Valid @RequestBody ShipmentRequestDTO request){
-        return ResponseEntity.ok().body(melhorEnvioFreteService.inserirFreteCarrinho(request));
+    @PostMapping("/inserir-frete-carrinho/{id}")
+    public ResponseEntity<ShipmentResponseDTO> inserirFreteCarrinho(@PathVariable Long id){
+        return ResponseEntity.ok().body(melhorEnvioFreteService.inserirFreteCarrinho(id));
+    }
+
+    @PostMapping("/comprar-etiqueta/{id}")
+    public ResponseEntity<ShipmentCheckoutResponseDTO> comprarEtiqueta(@PathVariable Long id){
+        return ResponseEntity.ok().body(melhorEnvioFreteService.comprarEtiqueta(id));
+    }
+
+    @PostMapping("/imprimir-etiqueta/{id}")
+    public ResponseEntity<OrderResponseDTO> imprimirEtiqueta(@PathVariable Long id){
+        return ResponseEntity.ok().body(melhorEnvioFreteService.imprimirEtiqueta(id));
     }
 }

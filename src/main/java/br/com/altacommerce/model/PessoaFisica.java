@@ -19,6 +19,16 @@ public class PessoaFisica extends Pessoa {
     public PessoaFisica() {
     }
 
+    @Override
+    public String getDocumentoPrincipal() {
+        return this.cpf;
+    }
+
+    @Override
+    public String getDocumentoEmpresa() {
+        return null;
+    }
+
     public PessoaFisica(PessoaFisicaRequestDTO dto) {
         super(dto.nome(), dto.email(), dto.telefone(), dto.enderecoRequestDTOS().stream()
                 .map(Endereco::new).toList());

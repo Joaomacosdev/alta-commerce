@@ -94,6 +94,9 @@ public abstract class Pessoa {
         return this;
     }
 
+    public abstract String getDocumentoPrincipal();
+    public abstract String getDocumentoEmpresa();
+
 
 
     @Override

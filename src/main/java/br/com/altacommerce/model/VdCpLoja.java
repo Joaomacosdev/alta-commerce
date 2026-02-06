@@ -73,6 +73,12 @@ public class VdCpLoja {
     @OneToMany(mappedBy = "vdCpLoja", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StatusRastreio> statusRastreios = new ArrayList<>();
 
+    private String codigoEtiqueta;
+
+    private String urlImprimiEtiqueta;
+
+    private Integer servicoTransportadora;
+
     public VdCpLoja() {
     }
 
@@ -238,6 +244,33 @@ public class VdCpLoja {
     public void adicionarItem(ItemVendaLoja item) {
         this.itemVendaLojas.add(item);
         item.setVdCpLoja(this);
+    }
+
+    public String getCodigoEtiqueta() {
+        return codigoEtiqueta;
+    }
+
+    public VdCpLoja setCodigoEtiqueta(String codigoEtiqueta) {
+        this.codigoEtiqueta = codigoEtiqueta;
+        return this;
+    }
+
+    public String getUrlImprimiEtiqueta() {
+        return urlImprimiEtiqueta;
+    }
+
+    public VdCpLoja setUrlImprimiEtiqueta(String urlImprimiEtiqueta) {
+        this.urlImprimiEtiqueta = urlImprimiEtiqueta;
+        return this;
+    }
+
+    public Integer getServicoTransportadora() {
+        return servicoTransportadora;
+    }
+
+    public VdCpLoja setServicoTransportadora(Integer servicoTransportadora) {
+        this.servicoTransportadora = servicoTransportadora;
+        return this;
     }
 
     @Override
